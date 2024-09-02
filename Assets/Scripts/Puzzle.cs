@@ -47,7 +47,6 @@ public class Puzzle {
 
         sliders.Add(new Slider(0, Orientation.Vertical, 2, 4, 2));
         sliders.Add(new Slider(1, Orientation.Horizontal, 2, 0, 3));
-        //sliders.Add(new Slider(1, Orientation.Vertical, 3, 0, 3));
         sliders.Add(new Slider(2, Orientation.Horizontal, 2, 2, 1));
         sliders.Add(new Slider(3, Orientation.Horizontal, 3, 3, 4));
     }

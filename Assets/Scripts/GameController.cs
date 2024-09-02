@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour {
     public GameObject[] sliderCubeCollection;
 
     private Puzzle puzzle = new Puzzle();
-    private List<SliderCubeController> sliderCubeControllers = new List<SliderCubeController>();
+    private List<GameObject> sliderInstances = new List<GameObject>();
 
     private static float verticalOffset = -3f;
     private static float horizontalXOffset = -3f;
@@ -14,8 +14,14 @@ public class GameController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        ResetAndStartGame();
+    }
+
+    private void ResetAndStartGame() {
         puzzle.Reset();
-        sliderCubeControllers.Clear();
+
+        foreach (var sliderInstance in sliderInstances) Destroy(sliderInstance);
+        sliderInstances.Clear();
 
         foreach (Puzzle.Slider slider in puzzle.sliders) {
             GameObject newSlider;
@@ -27,18 +33,13 @@ public class GameController : MonoBehaviour {
             }
 
             SliderCubeController sliderCubeController = newSlider.GetComponent<SliderCubeController>();
-            sliderCubeControllers.Add(sliderCubeController);
+            sliderInstances.Add(newSlider);
 
             sliderCubeController.puzzleSlider = slider;
             sliderCubeController.gameController = this;
-
         }
 
         UpdateSliderCubesBounds();
-    }
-
-    // Update is called once per frame
-    void Update() {
     }
 
     public void OnUpdateSliderPos(SliderCubeController sliderCubeController) {
@@ -60,13 +61,14 @@ public class GameController : MonoBehaviour {
     }
 
     public void signalWinning() {
-        // TODO
+        ResetAndStartGame();
     }
 
     private void UpdateSliderCubesBounds() {
         puzzle.RefreshMinMaxBoundCache();
 
-        foreach (SliderCubeController sliderCubeController in sliderCubeControllers) {
+        foreach (var sliderInstance in sliderInstances) {
+            SliderCubeController sliderCubeController = sliderInstance.GetComponent<SliderCubeController>();
             Puzzle.Slider slider = sliderCubeController.puzzleSlider;
 
             int min = slider.cachedMinBound;

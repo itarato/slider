@@ -70,14 +70,9 @@ public class SliderCubeController : MonoBehaviour {
 
         //Debug.LogFormat("Try slide: {0} <= {1} <= {2}", minSlide, newP, maxSlide);
 
-        if (newP < minSlide) {
-            newP = minSlide;
-            //audioSource.Play();
-        }
-        if (newP > maxSlide) {
-            newP = maxSlide;
-            //audioSource.Play();
-        }
+        if (newP < minSlide) newP = minSlide;
+        if (newP > maxSlide) newP = maxSlide;
+        
 
         if (puzzleSlider.IsVertical()) {
             transform.position = new Vector3(transform.position.x, transform.position.y, newP);
@@ -88,5 +83,6 @@ public class SliderCubeController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         gameController.signalWinning();
+        Debug.Log("YAY");
     }
 }
