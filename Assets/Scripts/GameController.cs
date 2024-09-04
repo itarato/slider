@@ -3,18 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
+    // Cube prefabs to pick for instantiation.
     public GameObject[] sliderCubeCollection;
+
+    // Reference to the main game UI.
     public GameObject ui;
 
+    // Main puzzle logic.
     private Puzzle puzzle = new Puzzle();
+
+    // 3D object instances according to the puzzle pieces.
     private List<GameObject> sliderInstances = new List<GameObject>();
 
+    // Aligning slider cube 3D objects.
     private static float verticalOffset = -3f;
     private static float horizontalXOffset = -3f;
     private static float horizontalZOffset = -2f;
 
+    // Sounds.
+    public AudioClip winningSound;
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start() {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = winningSound;
+
         ResetGame();
     }
 
@@ -70,6 +84,11 @@ public class GameController : MonoBehaviour {
     }
 
     public void SignalWinning() {
+        audioSource.Play();
+        Invoke("FinishGameAndShowUI", 3f);
+    }
+
+    private void FinishGameAndShowUI() {
         ResetGame();
         ui.SetActive(true);
     }
