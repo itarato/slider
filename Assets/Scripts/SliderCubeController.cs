@@ -82,7 +82,7 @@ public class SliderCubeController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        gameController.signalWinning();
+        gameController.SignalWinning();
         Debug.Log("YAY");
     }
 }

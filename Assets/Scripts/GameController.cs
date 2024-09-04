@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     public GameObject[] sliderCubeCollection;
+    public GameObject ui;
 
     private Puzzle puzzle = new Puzzle();
     private List<GameObject> sliderInstances = new List<GameObject>();
@@ -14,15 +15,21 @@ public class GameController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        ResetAndStartGame();
+        ResetGame();
     }
 
-    private void ResetAndStartGame() {
+    public void OnUIStartClick() {
+        StartGame();
+    }
+
+    private void ResetGame() {
         puzzle.Reset();
 
         foreach (var sliderInstance in sliderInstances) Destroy(sliderInstance);
         sliderInstances.Clear();
+    }
 
+    private void StartGame() {
         foreach (Puzzle.Slider slider in puzzle.sliders) {
             GameObject newSlider;
             int prefabIdx = slider.len - 2;
@@ -40,6 +47,8 @@ public class GameController : MonoBehaviour {
         }
 
         UpdateSliderCubesBounds();
+
+        ui.SetActive(false);
     }
 
     public void OnUpdateSliderPos(SliderCubeController sliderCubeController) {
@@ -60,8 +69,9 @@ public class GameController : MonoBehaviour {
         UpdateSliderCubesBounds();
     }
 
-    public void signalWinning() {
-        ResetAndStartGame();
+    public void SignalWinning() {
+        ResetGame();
+        ui.SetActive(true);
     }
 
     private void UpdateSliderCubesBounds() {
