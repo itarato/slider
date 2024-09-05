@@ -23,10 +23,17 @@ public class SliderCubeController : MonoBehaviour {
     public AudioClip clonkSound;
     private AudioSource audioSource;
 
+    // Smoke particles - when scratching the board while moving.
+    public ParticleSystem smokeFront;
+    public ParticleSystem smokeBack;
+
     // Start is called before the first frame update
     void Start() {
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = clonkSound;
+
+        smokeBack.gameObject.SetActive(false);
+        smokeFront.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -51,6 +58,9 @@ public class SliderCubeController : MonoBehaviour {
             transform.position = new Vector3((float)System.Math.Round(transform.position.x), transform.position.y, transform.position.z);
         }
 
+        smokeFront.gameObject.SetActive(false);
+        smokeBack.gameObject.SetActive(false);
+
         audioSource.Play();
 
         gameController.OnUpdateSliderPos(this);
@@ -59,26 +69,33 @@ public class SliderCubeController : MonoBehaviour {
     private void OnMouseDrag() {
         Vector3 relativeMousePos = GetMousePos3D();
         float newP;
+        float diffOrig;
 
         if (puzzleSlider.IsVertical()) {
-            float diff = (relativeMousePos.y - dragOrigMousePos.y) * 10f;
-            newP = dragOrigPos.z + diff;
+            diffOrig = (relativeMousePos.y - dragOrigMousePos.y) * 10f;
+            newP = dragOrigPos.z + diffOrig;
         } else {
-            float diff = (relativeMousePos.x - dragOrigMousePos.x) * 10f;
-            newP = dragOrigPos.x + diff;
+            diffOrig = (relativeMousePos.x - dragOrigMousePos.x) * 10f;
+            newP = dragOrigPos.x + diffOrig;
         }
 
         //Debug.LogFormat("Try slide: {0} <= {1} <= {2}", minSlide, newP, maxSlide);
 
         if (newP < minSlide) newP = minSlide;
         if (newP > maxSlide) newP = maxSlide;
-        
 
+
+        float diffFrame;
         if (puzzleSlider.IsVertical()) {
+            diffFrame = newP - transform.position.z;
             transform.position = new Vector3(transform.position.x, transform.position.y, newP);
         } else {
+            diffFrame = newP - transform.position.x;
             transform.position = new Vector3(newP, transform.position.y, transform.position.z);
         }
+
+        smokeFront.gameObject.SetActive(diffFrame > 0);
+        smokeBack.gameObject.SetActive(diffFrame < 0);
     }
 
     private void OnTriggerEnter(Collider other) {
