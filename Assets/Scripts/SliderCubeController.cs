@@ -32,8 +32,8 @@ public class SliderCubeController : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = clonkSound;
 
-        smokeBack.gameObject.SetActive(false);
-        smokeFront.gameObject.SetActive(false);
+        SetFrontSmokeActivity(false);
+        SetBackSmokeActivity(false);
     }
 
     // Update is called once per frame
@@ -58,8 +58,8 @@ public class SliderCubeController : MonoBehaviour {
             transform.position = new Vector3((float)System.Math.Round(transform.position.x), transform.position.y, transform.position.z);
         }
 
-        smokeFront.gameObject.SetActive(false);
-        smokeBack.gameObject.SetActive(false);
+        SetFrontSmokeActivity(false);
+        SetBackSmokeActivity(false);
 
         audioSource.Play();
 
@@ -94,12 +94,37 @@ public class SliderCubeController : MonoBehaviour {
             transform.position = new Vector3(newP, transform.position.y, transform.position.z);
         }
 
-        smokeFront.gameObject.SetActive(diffFrame > 0);
-        smokeBack.gameObject.SetActive(diffFrame < 0);
+        if (diffFrame > 0) {
+            SetFrontSmokeActivity(true);
+            SetBackSmokeActivity(false);
+        } else if (diffFrame < 0) {
+            SetFrontSmokeActivity(false);
+            SetBackSmokeActivity(true);
+        } else {
+            SetFrontSmokeActivity(false);
+            SetBackSmokeActivity(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
         gameController.SignalWinning();
-        Debug.Log("YAY");
+        //Debug.Log("YAY");
+    }
+
+    private void SetFrontSmokeActivity(bool isActive) {
+        //Debug.Log("Front smoke: " + isActive.ToString());
+        SetSmokeActivity(smokeFront, isActive);
+    }
+
+    private void SetBackSmokeActivity(bool isActive) {
+        SetSmokeActivity(smokeBack, isActive);
+    }
+
+    private void SetSmokeActivity(ParticleSystem particleSystem, bool isActive) {
+        if (isActive) {
+            if (!particleSystem.isPlaying) particleSystem.Play();
+        } else {
+            if (particleSystem.isPlaying) particleSystem.Stop();
+        }
     }
 }
