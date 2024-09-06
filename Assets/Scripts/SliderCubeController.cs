@@ -21,7 +21,11 @@ public class SliderCubeController : MonoBehaviour {
 
     // Sounds.
     public AudioClip clonkSound;
-    private AudioSource audioSource;
+    public AudioClip scratchSound;
+    private AudioSource clonkAudioSource;
+    private AudioSource scratchAudioSource;
+
+    private Easing scratchSoundVolumeEasing = new Easing(0.1f);
 
     // Smoke particles - when scratching the board while moving.
     public ParticleSystem smokeFront;
@@ -29,8 +33,13 @@ public class SliderCubeController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        audioSource = GetComponent<AudioSource>();
-        audioSource.clip = clonkSound;
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+
+        clonkAudioSource = audioSources[0];
+        clonkAudioSource.clip = clonkSound;
+
+        scratchAudioSource = audioSources[1];
+        scratchAudioSource.clip = scratchSound;
 
         SetFrontSmokeActivity(false);
         SetBackSmokeActivity(false);
@@ -38,6 +47,7 @@ public class SliderCubeController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        scratchSoundVolumeEasing.Update();
     }
 
     private Vector3 GetMousePos3D() {
@@ -61,7 +71,8 @@ public class SliderCubeController : MonoBehaviour {
         SetFrontSmokeActivity(false);
         SetBackSmokeActivity(false);
 
-        audioSource.Play();
+        clonkAudioSource.Play();
+        StopScratchSound();
 
         gameController.OnUpdateSliderPos(this);
     }
@@ -104,6 +115,14 @@ public class SliderCubeController : MonoBehaviour {
             SetFrontSmokeActivity(false);
             SetBackSmokeActivity(false);
         }
+
+        PlayScratchSound(Mathf.Abs(diffFrame));
+        //if (diffFrame != 0) {
+        //    PlayScratchSound(Mathf.Abs(diffFrame));
+        //    //Debug.Log(diffFrame);
+        //} else {
+        //    StopScratchSound();
+        //}
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -126,5 +145,16 @@ public class SliderCubeController : MonoBehaviour {
         } else {
             if (particleSystem.isPlaying) particleSystem.Stop();
         }
+    }
+
+    private void PlayScratchSound(float volume) {
+        scratchSoundVolumeEasing.setTarget(Mathf.Clamp01(volume));
+        scratchAudioSource.volume = scratchSoundVolumeEasing.value;
+
+        if (!scratchAudioSource.isPlaying) scratchAudioSource.Play();
+    }
+
+    private void StopScratchSound() {
+        if (scratchAudioSource.isPlaying) scratchAudioSource.Stop();
     }
 }
