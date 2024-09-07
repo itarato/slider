@@ -6,6 +6,11 @@ public class GameController : MonoBehaviour {
     // Cube prefabs to pick for instantiation.
     public GameObject[] sliderCubeCollection;
 
+    // Main camera.
+    public Camera mainCamera;
+    private float landscapeFOV = 53f;
+    private float portraitFOV = 95f;
+
     // Reference to the main game UI.
     public GameObject ui;
 
@@ -30,6 +35,10 @@ public class GameController : MonoBehaviour {
         audioSource.clip = winningSound;
 
         ResetGame();
+    }
+
+    public void Update() {
+        AdjustCamera();
     }
 
     public void OnUIStartClick() {
@@ -112,6 +121,15 @@ public class GameController : MonoBehaviour {
             }
 
             //Debug.LogFormat("ID={4} New min: {0}={1} | New max: {2}={3}", min, sliderCubeController.minSlide, max, sliderCubeController.maxSlide, slider.id);
+        }
+    }
+
+    void AdjustCamera() {
+        if (Screen.orientation == ScreenOrientation.Portrait ||
+            Screen.orientation == ScreenOrientation.PortraitUpsideDown) {
+            mainCamera.fieldOfView = portraitFOV;
+        } else {
+            mainCamera.fieldOfView = landscapeFOV;
         }
     }
 }
