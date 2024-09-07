@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -125,11 +126,11 @@ public class GameController : MonoBehaviour {
     }
 
     void AdjustCamera() {
-        if (Screen.orientation == ScreenOrientation.Portrait ||
-            Screen.orientation == ScreenOrientation.PortraitUpsideDown) {
-            mainCamera.fieldOfView = portraitFOV;
-        } else {
+        if (Screen.orientation == ScreenOrientation.LandscapeLeft ||
+            Screen.orientation == ScreenOrientation.LandscapeRight) {
             mainCamera.fieldOfView = landscapeFOV;
+        } else {
+            mainCamera.fieldOfView = portraitFOV;
         }
     }
 }

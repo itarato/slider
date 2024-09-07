@@ -376,6 +376,9 @@ MonoBehaviour:
   mainCamera: {fileID: 963194227}
   ui: {fileID: 536534549}
   winningSound: {fileID: 8300000, guid: 2667a0a008b044e218b63df62e2be749, type: 3}
+  debugX: 0
+  debugY: 0
+  debugZ: 0
 --- !u!82 &456952667
 AudioSource:
   m_ObjectHideFlags: 0
@@ -945,7 +948,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 94.91684
+  field of view: 94.81343
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

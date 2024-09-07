@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8047936903421376324}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   scratchSound: {fileID: 8300000, guid: 0dee76aa7ec4a4346abb8d7ec9eb169b, type: 3}
   smokeFront: {fileID: 1018456521925514300}
   smokeBack: {fileID: 3516559981857603707}
+  cubeSize: 3
 --- !u!65 &7736491126890006289
 BoxCollider:
   m_ObjectHideFlags: 0

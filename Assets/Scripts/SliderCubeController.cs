@@ -2,12 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class SliderCubeController : MonoBehaviour {
-    // Offset helpers for dragging.
-    private Vector3 dragOrigMousePos;
-    private Vector3 dragOrigPos;
-
     // Reference to the main puzzle logic.
     public Puzzle.Slider puzzleSlider;
 
@@ -30,16 +25,16 @@ public class SliderCubeController : MonoBehaviour {
     // Smoke particles - when scratching the board while moving.
     public ParticleSystem smokeFront;
     public ParticleSystem smokeBack;
+    
+    // Physical length of the slide 3D object the 2/3 unit one.
+    public float cubeSize;
+
+    // Offset to where the mouse grabbed a cube.
+    public float dragOffset = 0f;
 
     // Start is called before the first frame update
     void Start() {
-        AudioSource[] audioSources = GetComponents<AudioSource>();
-
-        clonkAudioSource = audioSources[0];
-        clonkAudioSource.clip = clonkSound;
-
-        scratchAudioSource = audioSources[1];
-        scratchAudioSource.clip = scratchSound;
+        SetupAudio();
 
         SetFrontSmokeActivity(false);
         SetBackSmokeActivity(false);
@@ -51,13 +46,11 @@ public class SliderCubeController : MonoBehaviour {
     }
 
     private Vector3 GetMousePos3D() {
-        return Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        return Camera.main.ViewportToWorldPoint(Input.mousePosition);
     }
 
     private void OnMouseDown() {
-        // Save drag-staring mouse + object pos to calculate drag move.
-        dragOrigMousePos = GetMousePos3D();
-        dragOrigPos = transform.position;
+        SaveDragOffset();
     }
 
     private void OnMouseUp() {
@@ -78,23 +71,19 @@ public class SliderCubeController : MonoBehaviour {
     }
 
     private void OnMouseDrag() {
-        Vector3 relativeMousePos = GetMousePos3D();
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 9.5f;
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
         float newP;
-        float diffOrig;
-
         if (puzzleSlider.IsVertical()) {
-            diffOrig = (relativeMousePos.y - dragOrigMousePos.y) * 10f;
-            newP = dragOrigPos.z + diffOrig;
+            newP = worldPos.z - dragOffset;
         } else {
-            diffOrig = (relativeMousePos.x - dragOrigMousePos.x) * 10f;
-            newP = dragOrigPos.x + diffOrig;
+            newP = worldPos.x - dragOffset;
         }
-
-        //Debug.LogFormat("Try slide: {0} <= {1} <= {2}", minSlide, newP, maxSlide);
 
         if (newP < minSlide) newP = minSlide;
         if (newP > maxSlide) newP = maxSlide;
-
 
         float diffFrame;
         if (puzzleSlider.IsVertical()) {
@@ -105,6 +94,7 @@ public class SliderCubeController : MonoBehaviour {
             transform.position = new Vector3(newP, transform.position.y, transform.position.z);
         }
 
+        // Smoke control.
         if (diffFrame > 0) {
             SetFrontSmokeActivity(true);
             SetBackSmokeActivity(false);
@@ -116,13 +106,14 @@ public class SliderCubeController : MonoBehaviour {
             SetBackSmokeActivity(false);
         }
 
+        // Scratch sounds.
         PlayScratchSound(Mathf.Abs(diffFrame));
-        //if (diffFrame != 0) {
-        //    PlayScratchSound(Mathf.Abs(diffFrame));
-        //    //Debug.Log(diffFrame);
-        //} else {
-        //    StopScratchSound();
-        //}
+        if (diffFrame != 0) {
+            PlayScratchSound(Mathf.Abs(diffFrame));
+            //Debug.Log(diffFrame);
+        } else {
+            StopScratchSound();
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -156,5 +147,27 @@ public class SliderCubeController : MonoBehaviour {
 
     private void StopScratchSound() {
         if (scratchAudioSource.isPlaying) scratchAudioSource.Stop();
+    }
+
+    private void SetupAudio() {
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+
+        clonkAudioSource = audioSources[0];
+        clonkAudioSource.clip = clonkSound;
+
+        scratchAudioSource = audioSources[1];
+        scratchAudioSource.clip = scratchSound;
+    }
+
+    private void SaveDragOffset() {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 9.5f;
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        if (puzzleSlider.IsVertical()) {
+            dragOffset = worldPos.z - transform.position.z;
+        } else {
+            dragOffset = worldPos.x - transform.position.x;
+        }
     }
 }
