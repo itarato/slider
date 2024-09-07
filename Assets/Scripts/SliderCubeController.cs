@@ -25,9 +25,6 @@ public class SliderCubeController : MonoBehaviour {
     // Smoke particles - when scratching the board while moving.
     public ParticleSystem smokeFront;
     public ParticleSystem smokeBack;
-    
-    // Physical length of the slide 3D object the 2/3 unit one.
-    public float cubeSize;
 
     // Offset to where the mouse grabbed a cube.
     public float dragOffset = 0f;
