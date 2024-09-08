@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -30,10 +29,14 @@ public class GameController : MonoBehaviour {
     public AudioClip winningSound;
     private AudioSource audioSource;
 
+    private bool isPhoneDevice;
+
     // Start is called before the first frame update
     void Start() {
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = winningSound;
+
+        isPhoneDevice = Application.platform == RuntimePlatform.Android;
 
         ResetGame();
     }
@@ -95,6 +98,8 @@ public class GameController : MonoBehaviour {
 
     public void SignalWinning() {
         audioSource.Play();
+        foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>().GameOver();
+
         Invoke("FinishGameAndShowUI", 3f);
     }
 
@@ -127,7 +132,9 @@ public class GameController : MonoBehaviour {
 
     void AdjustCamera() {
         if (Screen.orientation == ScreenOrientation.LandscapeLeft ||
-            Screen.orientation == ScreenOrientation.LandscapeRight) {
+            Screen.orientation == ScreenOrientation.LandscapeRight || 
+            !isPhoneDevice
+        ) {
             mainCamera.fieldOfView = landscapeFOV;
         } else {
             mainCamera.fieldOfView = portraitFOV;

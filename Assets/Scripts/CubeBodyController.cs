@@ -10,7 +10,7 @@ public class CubeBodyController : MonoBehaviour
     void Start()
     {
         objRenderer = GetComponent<Renderer>();
-        objRenderer.material.color = new Color(Random.Range(0.6f, 1.0f), Random.Range(0.6f, 1.0f), Random.Range(0.6f, 1.0f));
+        objRenderer.material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
     }
 
     // Update is called once per frame
