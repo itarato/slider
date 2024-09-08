@@ -36,6 +36,12 @@ public class GameController : MonoBehaviour {
     private int steps = 0;
     public TextMeshProUGUI stepsTextUI;
 
+    public static GameController instance;
+
+    private void Awake() {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start() {
         audioSource = GetComponent<AudioSource>();

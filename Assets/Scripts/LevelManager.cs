@@ -8,6 +8,6 @@ public class LevelManager {
     }
 
     public Level[] Levels(string difficultyLevel) {
-        return new Level[] { new Level(), new Level(), new Level() };
+        return new Level[] { new Level(), new Level(), new Level(), new Level(), new Level(), new Level(), new Level(), new Level(), new Level(), new Level(), new Level(), new Level(), new Level(), new Level(), new Level() };
     }
 }
