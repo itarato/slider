@@ -15,11 +15,16 @@ public class UIController : MonoBehaviour {
         foreach (string difficulty in levelManager.DifficultyLevels()) {
             GameObject instance = Instantiate(difficultyButtonPrefab, difficultyMenuCanvas.transform);
             instance.GetComponentInChildren<TextMeshProUGUI>().text = difficulty;
+            instance.GetComponentInChildren<Button>().onClick.AddListener(delegate { OnClickDifficultyButton(difficulty); });
         }
     }
 
     // Update is called once per frame
     void Update() {
 
+    }
+
+    public void OnClickDifficultyButton(string difficulty) {
+        Debug.Log("CLICK: " + difficulty);
     }
 }
