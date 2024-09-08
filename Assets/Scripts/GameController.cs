@@ -107,7 +107,6 @@ public class GameController : MonoBehaviour {
 
         steps++;
         stepsTextUI.text = "Step: " + steps.ToString();
-        Debug.Log(steps);
     }
 
     public void SignalWinning() {
