@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -12,7 +13,8 @@ public class GameController : MonoBehaviour {
     private float portraitFOV = 95f;
 
     // Reference to the main game UI.
-    public GameObject ui;
+    public GameObject startMenuUI;
+    public GameObject inGameUI;
 
     // Main puzzle logic.
     private Puzzle puzzle = new Puzzle();
@@ -31,12 +33,17 @@ public class GameController : MonoBehaviour {
 
     private bool isPhoneDevice;
 
+    private int steps = 0;
+    public TextMeshProUGUI stepsTextUI;
+
     // Start is called before the first frame update
     void Start() {
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = winningSound;
 
         isPhoneDevice = Application.platform == RuntimePlatform.Android;
+
+        inGameUI.SetActive(false);
 
         ResetGame();
     }
@@ -75,7 +82,10 @@ public class GameController : MonoBehaviour {
 
         UpdateSliderCubesBounds();
 
-        ui.SetActive(false);
+        startMenuUI.SetActive(false);
+        inGameUI.SetActive(true);
+
+        steps = 0;
     }
 
     public void OnUpdateSliderPos(SliderCubeController sliderCubeController) {
@@ -94,6 +104,10 @@ public class GameController : MonoBehaviour {
 
         // Set new min/max.
         UpdateSliderCubesBounds();
+
+        steps++;
+        stepsTextUI.text = "Step: " + steps.ToString();
+        Debug.Log(steps);
     }
 
     public void SignalWinning() {
@@ -105,7 +119,8 @@ public class GameController : MonoBehaviour {
 
     private void FinishGameAndShowUI() {
         ResetGame();
-        ui.SetActive(true);
+        startMenuUI.SetActive(true);
+        inGameUI.SetActive(false);
     }
 
     private void UpdateSliderCubesBounds() {
