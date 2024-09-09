@@ -96,6 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 747c22730ea18e94bacac6ad492be1a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  specialMaterial: {fileID: 2100000, guid: 9b53b2ffa12855742a72a182710b004a, type: 2}
+  isSpecial: 0
 --- !u!1 &8785782173700670328
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,8 +155,8 @@ MonoBehaviour:
   scratchSound: {fileID: 8300000, guid: ff66d2c321ca4534990286183fe7f44c, type: 3}
   smokeFront: {fileID: 1404182172038901746}
   smokeBack: {fileID: 4324153243469265534}
-  cubeSize: 2
   dragOffset: 0
+  isAwayFromWall: 1
 --- !u!65 &7736491126890006289
 BoxCollider:
   m_ObjectHideFlags: 0

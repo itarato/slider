@@ -72,6 +72,7 @@ public class GameController : MonoBehaviour {
     private void StartGame(List<Puzzle.Slider> sliders) {
         puzzle.sliders = sliders.Select(e => e.Clone()).ToList();
 
+        bool isFirst = true;
         foreach (Puzzle.Slider slider in puzzle.sliders) {
             GameObject newSlider;
             int prefabIdx = slider.len - 2;
@@ -86,6 +87,11 @@ public class GameController : MonoBehaviour {
 
             sliderCubeController.puzzleSlider = slider;
             sliderCubeController.gameController = this;
+
+            if (isFirst) {
+                newSlider.GetComponentInChildren<CubeBodyController>().isSpecial = true;
+                isFirst = false;
+            }
         }
 
         UpdateSliderCubesBounds();
@@ -154,7 +160,7 @@ public class GameController : MonoBehaviour {
 
     void AdjustCamera() {
         if (Screen.orientation == ScreenOrientation.LandscapeLeft ||
-            Screen.orientation == ScreenOrientation.LandscapeRight || 
+            Screen.orientation == ScreenOrientation.LandscapeRight ||
             !isPhoneDevice
         ) {
             mainCamera.fieldOfView = landscapeFOV;

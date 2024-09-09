@@ -5,17 +5,17 @@ using UnityEngine;
 public class CubeBodyController : MonoBehaviour
 {
     private Renderer objRenderer;
+    public Material specialMaterial;
+    public bool isSpecial = false;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         objRenderer = GetComponent<Renderer>();
-        objRenderer.material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (isSpecial) {
+            objRenderer.material = specialMaterial;
+        } else {
+            objRenderer.material.color = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.6f));
+        }
     }
 }

@@ -59,7 +59,7 @@ public class UIController : MonoBehaviour {
     }
 
     private void OnClickLevelButton(string difficulty, int levelIdx) {
-        Debug.Log(difficulty + " " + levelIdx.ToString());
+        //Debug.Log(difficulty + " " + levelIdx.ToString());
 
         levelSelectionCanvas.gameObject.SetActive(false);
         difficultySelectionCanvas.gameObject.SetActive(true);
