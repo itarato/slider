@@ -26,28 +26,13 @@ public class Puzzle {
         public bool IsVertical() {
             return orientation == Orientation.Vertical;
         }
+
+        public Slider Clone() {
+            return new Slider(id, orientation, len, x, y);
+        }
     }
 
     public List<Slider> sliders = new List<Slider>();
-
-    public void Reset() {
-        sliders.Clear();
-
-        /*
-         *  012345
-         * 5#.....
-         * 4#..4##
-         * 32...#.
-         * 2....1.
-         * 1..3#..
-         * 0......
-         */
-
-        sliders.Add(new Slider(0, Orientation.Vertical, 2, 4, 2));
-        sliders.Add(new Slider(1, Orientation.Horizontal, 2, 0, 3));
-        sliders.Add(new Slider(2, Orientation.Horizontal, 2, 2, 1));
-        sliders.Add(new Slider(3, Orientation.Horizontal, 3, 3, 4));
-    }
 
     public void RefreshMinMaxBoundCache() {
         // Bounds are 6 + 1 - so the exit car can occupy that +1 slot at the exit.

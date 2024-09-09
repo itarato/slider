@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 123
+  m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fb469e9e1abe6c947b75bc33746008b8, type: 2}
   m_sharedMaterial: {fileID: -1860209529686916270, guid: fb469e9e1abe6c947b75bc33746008b8, type: 2}
@@ -74,8 +74,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280964157
-  m_fontColor: {r: 0.2401967, g: 0.3301887, b: 0.16353685, a: 1}
+    rgba: 4283119914
+  m_fontColor: {r: 0.16415983, g: 0.22247483, b: 0.2924528, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 1
   m_fontColorGradient:
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 3333504928766535021}
   - component: {fileID: 8984394703563022551}
   m_Layer: 5
-  m_Name: ButtonGreenNarrow
+  m_Name: ButtonBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -171,7 +171,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 40, y: 30}
+  m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6751510017136356104
 CanvasRenderer:
@@ -232,8 +232,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.63607574, g: 0.745283, b: 0.53786933, a: 1}
-    m_HighlightedColor: {r: 0.43883887, g: 0.745283, b: 0.16522783, a: 1}
+    m_NormalColor: {r: 0.7407885, g: 0.8032935, b: 0.8773585, a: 1}
+    m_HighlightedColor: {r: 0.4793966, g: 0.60957, b: 0.764151, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}

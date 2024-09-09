@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour {
     public GameObject difficultyButtonPrefab;
     public GameObject levelButtonPrefab;
     public GameObject levelButtonRowPrefab;
+    public GameObject backButtonPrefab;
 
     private LevelManager levelManager = new LevelManager();
 
@@ -23,26 +24,32 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     private void OnClickDifficultyButton(string difficulty) {
         difficultySelectionCanvas.gameObject.SetActive(false);
         levelSelectionCanvas.gameObject.SetActive(true);
 
-        LevelManager.Level[] levels = levelManager.Levels(difficulty);
+        ClearLevelSelectionCanvas();
+
+        List<LevelManager.Level> levels = levelManager.Levels(difficulty);
         int i = 0;
-        while (i < levels.Length) {
+        while (i < levels.Count) {
             GameObject row = Instantiate(levelButtonRowPrefab, levelSelectionCanvas.transform);
 
-            for (int j = 0; j < 4 && i < levels.Length; j++, i++) {
+            for (int j = 0; j < 4 && i < levels.Count; j++, i++) {
                 GameObject instance = Instantiate(levelButtonPrefab, row.transform);
                 instance.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
-                instance.GetComponentInChildren<Button>().onClick.AddListener(delegate {  OnClickLevelButton(difficulty, i); });
+                int levelIdx = i;
+                instance.GetComponentInChildren<Button>().onClick.AddListener(delegate { OnClickLevelButton(difficulty, levelIdx); });
             }
         }
+
+        GameObject lastRow = Instantiate(levelButtonRowPrefab, levelSelectionCanvas.transform);
+        GameObject backButton = Instantiate(backButtonPrefab, lastRow.transform);
+
+        backButton.GetComponentInChildren<Button>().onClick.AddListener(delegate {
+            levelSelectionCanvas.gameObject.SetActive(false);
+            difficultySelectionCanvas.gameObject.SetActive(true);
+        });
     }
 
     private void ClearLevelSelectionCanvas() {
@@ -52,6 +59,11 @@ public class UIController : MonoBehaviour {
     }
 
     private void OnClickLevelButton(string difficulty, int levelIdx) {
-        GameController.instance.OnUIStartClick();
+        Debug.Log(difficulty + " " + levelIdx.ToString());
+
+        levelSelectionCanvas.gameObject.SetActive(false);
+        difficultySelectionCanvas.gameObject.SetActive(true);
+
+        GameController.instance.OnUIStartClick(levelManager.Levels(difficulty)[levelIdx].sliders);
     }
 }

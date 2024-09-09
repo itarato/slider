@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -58,18 +60,18 @@ public class GameController : MonoBehaviour {
         AdjustCamera();
     }
 
-    public void OnUIStartClick() {
-        StartGame();
+    public void OnUIStartClick(List<Puzzle.Slider> sliders) {
+        StartGame(sliders);
     }
 
     private void ResetGame() {
-        puzzle.Reset();
-
         foreach (var sliderInstance in sliderInstances) Destroy(sliderInstance);
         sliderInstances.Clear();
     }
 
-    private void StartGame() {
+    private void StartGame(List<Puzzle.Slider> sliders) {
+        puzzle.sliders = sliders.Select(e => e.Clone()).ToList();
+
         foreach (Puzzle.Slider slider in puzzle.sliders) {
             GameObject newSlider;
             int prefabIdx = slider.len - 2;
@@ -159,5 +161,9 @@ public class GameController : MonoBehaviour {
         } else {
             mainCamera.fieldOfView = portraitFOV;
         }
+    }
+
+    public void OnClickExitLevel() {
+        FinishGameAndShowUI();
     }
 }
