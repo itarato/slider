@@ -6,6 +6,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
+    private enum State {
+        Play,
+        GameOver,
+    }
+
     // Cube prefabs to pick for instantiation.
     public GameObject[] sliderCubeCollection;
 
@@ -35,10 +40,15 @@ public class GameController : MonoBehaviour {
 
     private bool isPhoneDevice;
 
+    // Level state for the current play - for UI to present.
     private int steps = 0;
+    private string difficulty;
+    private int levelIdx;
     public TextMeshProUGUI stepsTextUI;
 
     public static GameController instance;
+
+    private State state = State.Play;
 
     private void Awake() {
         instance = this;
@@ -60,7 +70,10 @@ public class GameController : MonoBehaviour {
         AdjustCamera();
     }
 
-    public void OnUIStartClick(List<Puzzle.Slider> sliders) {
+    public void OnUIStartClick(string difficulty, int levelIdx, List<Puzzle.Slider> sliders) {
+        this.difficulty = difficulty;
+        this.levelIdx = levelIdx;
+
         StartGame(sliders);
     }
 
@@ -100,6 +113,8 @@ public class GameController : MonoBehaviour {
         inGameUI.SetActive(true);
 
         steps = 0;
+        state = State.Play;
+        UpdateScoreLine();
     }
 
     public void OnUpdateSliderPos(SliderCubeController sliderCubeController) {
@@ -120,14 +135,19 @@ public class GameController : MonoBehaviour {
         UpdateSliderCubesBounds();
 
         steps++;
-        stepsTextUI.text = "Step: " + steps.ToString();
+        UpdateScoreLine();
     }
 
     public void SignalWinning() {
         audioSource.Play();
         foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>().GameOver();
+        state = State.GameOver;
 
         Invoke("FinishGameAndShowUI", 3f);
+    }
+
+    private void UpdateScoreLine() {
+        stepsTextUI.text = difficulty + " #" + levelIdx.ToString() + " | Step: " + steps.ToString();
     }
 
     private void FinishGameAndShowUI() {
@@ -170,6 +190,8 @@ public class GameController : MonoBehaviour {
     }
 
     public void OnClickExitLevel() {
+        if (state == State.GameOver) return;
+
         FinishGameAndShowUI();
     }
 }

@@ -64,6 +64,6 @@ public class UIController : MonoBehaviour {
         levelSelectionCanvas.gameObject.SetActive(false);
         difficultySelectionCanvas.gameObject.SetActive(true);
 
-        GameController.instance.OnUIStartClick(levelManager.Levels(difficulty)[levelIdx].sliders);
+        GameController.instance.OnUIStartClick(difficulty, levelIdx, levelManager.Levels(difficulty)[levelIdx].sliders);
     }
 }
