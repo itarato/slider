@@ -4,9 +4,13 @@ using UnityEngine;
 public class LevelsController : MonoBehaviour {
     public class Level {
         public bool solved = false;
+        public string name;
+        public int levelIdx;
         public List<Puzzle.Slider> sliders = new List<Puzzle.Slider>();
 
-        public Level(string michaelFoglemanFormat) {
+        public Level(string name, int levelIdx, string michaelFoglemanFormat) {
+            this.name = name;
+            this.levelIdx = levelIdx;
             solved = false;
 
             Debug.Log("Parse: " + michaelFoglemanFormat);
@@ -75,6 +79,6 @@ public class LevelsController : MonoBehaviour {
         string[] lines = content.Split('\n');
 
         // TODO: Cache the outcome.
-        return new Level(lines[levelIdx]);
+        return new Level(maps[packIdx].name, levelIdx, lines[levelIdx]);
     }
 }

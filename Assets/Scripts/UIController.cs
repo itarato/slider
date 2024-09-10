@@ -28,6 +28,6 @@ public class UIController : MonoBehaviour {
         int levelIdx = Random.Range(0, levelsController.PackSize(selectedPackIdx));
 
         LevelsController.Level level = levelsController.PrepareLevel(selectedPackIdx, levelIdx);
-        gameController.OnUIStartClick(selectedPackIdx, levelIdx, level.sliders);
+        gameController.OnUIStartClick(level);
     }
 }

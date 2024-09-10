@@ -42,8 +42,7 @@ public class GameController : MonoBehaviour {
 
     // Level state for the current play - for UI to present.
     private int steps = 0;
-    private int packIdx;
-    private int levelIdx;
+    private LevelsController.Level currentLevel;
     public TextMeshProUGUI stepsTextUI;
 
     public static GameController instance;
@@ -70,11 +69,10 @@ public class GameController : MonoBehaviour {
         AdjustCamera();
     }
 
-    public void OnUIStartClick(int packIdx, int levelIdx, List<Puzzle.Slider> sliders) {
-        this.packIdx = packIdx;
-        this.levelIdx = levelIdx;
+    public void OnUIStartClick(LevelsController.Level level) {
+        currentLevel = level;
 
-        StartGame(sliders);
+        StartGame(level.sliders);
     }
 
     private void ResetGame() {
@@ -146,7 +144,7 @@ public class GameController : MonoBehaviour {
     }
 
     private void UpdateScoreLine() {
-        stepsTextUI.text = "Pack: " + packIdx.ToString() + " moves | Level #" + levelIdx.ToString() + " | Step: " + steps.ToString();
+        stepsTextUI.text = "Pack: " + currentLevel.name + " moves | Level #" + currentLevel.levelIdx.ToString() + " | Step: " + steps.ToString();
     }
 
     private void FinishGameAndShowUI() {
