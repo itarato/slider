@@ -30,6 +30,15 @@ public class Puzzle {
         public Slider Clone() {
             return new Slider(id, orientation, len, x, y);
         }
+
+        public bool IsObstacle() {
+            return len == 1;
+        }
+
+        // Whether this is the cube that will exit.
+        public bool IsSpecial() {
+            return orientation == Orientation.Horizontal && y == 3 && len == 2;
+        }
     }
 
     public List<Slider> sliders = new List<Slider>();

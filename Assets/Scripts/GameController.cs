@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour {
 
     // Level state for the current play - for UI to present.
     private int steps = 0;
-    private string difficulty;
+    private int packIdx;
     private int levelIdx;
     public TextMeshProUGUI stepsTextUI;
 
@@ -70,8 +70,8 @@ public class GameController : MonoBehaviour {
         AdjustCamera();
     }
 
-    public void OnUIStartClick(string difficulty, int levelIdx, List<Puzzle.Slider> sliders) {
-        this.difficulty = difficulty;
+    public void OnUIStartClick(int packIdx, int levelIdx, List<Puzzle.Slider> sliders) {
+        this.packIdx = packIdx;
         this.levelIdx = levelIdx;
 
         StartGame(sliders);
@@ -85,25 +85,24 @@ public class GameController : MonoBehaviour {
     private void StartGame(List<Puzzle.Slider> sliders) {
         puzzle.sliders = sliders.Select(e => e.Clone()).ToList();
 
-        bool isFirst = true;
         foreach (Puzzle.Slider slider in puzzle.sliders) {
             GameObject newSlider;
-            int prefabIdx = slider.len - 2;
+            int prefabIdx = slider.len - 1;
             if (slider.IsVertical()) {
                 newSlider = Instantiate(sliderCubeCollection[prefabIdx], new Vector3(slider.x + verticalOffset, 0.75f, slider.y + verticalOffset), Quaternion.identity);
             } else {
                 newSlider = Instantiate(sliderCubeCollection[prefabIdx], new Vector3(slider.x + horizontalXOffset, 0.75f, slider.y + horizontalZOffset), Quaternion.Euler(new Vector3(0f, 90f, 0f)));
             }
-
-            SliderCubeController sliderCubeController = newSlider.GetComponent<SliderCubeController>();
             sliderInstances.Add(newSlider);
 
-            sliderCubeController.puzzleSlider = slider;
-            sliderCubeController.gameController = this;
-
-            if (isFirst) {
+            if (slider.IsSpecial()) {
                 newSlider.GetComponentInChildren<CubeBodyController>().isSpecial = true;
-                isFirst = false;
+            }
+
+            SliderCubeController sliderCubeController = newSlider.GetComponent<SliderCubeController>();
+            if (sliderCubeController != null) {
+                sliderCubeController.puzzleSlider = slider;
+                sliderCubeController.gameController = this;
             }
         }
 
@@ -140,14 +139,14 @@ public class GameController : MonoBehaviour {
 
     public void SignalWinning() {
         audioSource.Play();
-        foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>().GameOver();
+        foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.GameOver();
         state = State.GameOver;
 
         Invoke("FinishGameAndShowUI", 3f);
     }
 
     private void UpdateScoreLine() {
-        stepsTextUI.text = difficulty + " #" + levelIdx.ToString() + " | Step: " + steps.ToString();
+        stepsTextUI.text = "Pack: " + packIdx.ToString() + " moves | Level #" + levelIdx.ToString() + " | Step: " + steps.ToString();
     }
 
     private void FinishGameAndShowUI() {
@@ -161,6 +160,8 @@ public class GameController : MonoBehaviour {
 
         foreach (var sliderInstance in sliderInstances) {
             SliderCubeController sliderCubeController = sliderInstance.GetComponent<SliderCubeController>();
+            if (sliderCubeController == null) continue;
+
             Puzzle.Slider slider = sliderCubeController.puzzleSlider;
 
             int min = slider.cachedMinBound;

@@ -70,7 +70,10 @@ public class SliderCubeController : MonoBehaviour {
 
     private void OnMouseUp() {
         if (isGameOver) return;
+        FinishMove();
+    }
 
+    private void FinishMove() {
         SnapToGrid();
         SmokeStopAll();
         StopScratchSound();
@@ -122,6 +125,7 @@ public class SliderCubeController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
+        FinishMove();
         gameController.SignalWinning();
         //Debug.Log("YAY");
     }
