@@ -15,7 +15,7 @@ public class CubeBodyController : MonoBehaviour
         if (isSpecial) {
             objRenderer.material = specialMaterial;
         } else {
-            objRenderer.material.color = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.6f));
+            //objRenderer.material.color = new Color(Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.6f), Random.Range(0.3f, 0.6f));
         }
     }
 }
