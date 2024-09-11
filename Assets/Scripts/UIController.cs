@@ -10,6 +10,7 @@ public class UIController : MonoBehaviour {
     public LevelsController levelsController;
     public GameController gameController;
     public Button startButton;
+    public TMP_InputField exactLevelInput;
 
     private int selectedPackIdx = 0;
     private int exactLevel = -1;
@@ -36,8 +37,8 @@ public class UIController : MonoBehaviour {
 
         if (exactLevel >= 0) {
             levelIdx = exactLevel % levelCount;
-            // TODO: empty input field
-            //exactLevel = -1;
+
+            ResetForm();
         } else {
             levelIdx = UnityEngine.Random.Range(0, levelCount);
         }
@@ -55,7 +56,12 @@ public class UIController : MonoBehaviour {
             }
         }
 
+        ResetForm();
+    }
+
+    private void ResetForm() {
         exactLevel = -1;
+        exactLevelInput.text = "";
         startButton.GetComponentInChildren<TMP_Text>().text = "Random";
     }
 }
