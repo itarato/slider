@@ -21,7 +21,8 @@ public class UIController : MonoBehaviour {
     }
 
     public void OnClickPackDropdown(int idx) {
-        selectedPackIdx = idx;
+        if (idx == 0) return; // Top label.
+        selectedPackIdx = idx - 1;
     }
 
     public void OnClickRandomButton() {
