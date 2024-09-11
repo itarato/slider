@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour {
     private int steps = 0;
     private LevelsController.Level currentLevel;
     public TextMeshProUGUI stepsTextUI;
+    public TextMeshProUGUI levelTextUI;
 
     public static GameController instance;
 
@@ -144,7 +145,8 @@ public class GameController : MonoBehaviour {
     }
 
     private void UpdateScoreLine() {
-        stepsTextUI.text = "Pack: " + currentLevel.name + " moves | Level #" + currentLevel.levelIdx.ToString() + " | Step: " + steps.ToString();
+        stepsTextUI.text = "Steps: " + steps.ToString();
+        levelTextUI.text = "Pack: " + currentLevel.name + " moves | Level #" + currentLevel.levelIdx.ToString();
     }
 
     private void FinishGameAndShowUI() {
