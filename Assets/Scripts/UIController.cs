@@ -1,14 +1,18 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour {
     public TMP_Dropdown packDropdown;
 
     public LevelsController levelsController;
     public GameController gameController;
+    public Button startButton;
 
     private int selectedPackIdx = 0;
+    private int exactLevel = -1;
 
     // Start is called before the first frame update
     void Start() {
@@ -25,10 +29,33 @@ public class UIController : MonoBehaviour {
         selectedPackIdx = idx - 1;
     }
 
+    // TODO: Rename to start-button.
     public void OnClickRandomButton() {
-        int levelIdx = Random.Range(0, levelsController.PackSize(selectedPackIdx));
+        int levelIdx;
+        int levelCount = levelsController.PackSize(selectedPackIdx);
+
+        if (exactLevel >= 0) {
+            levelIdx = exactLevel % levelCount;
+            // TODO: empty input field
+            //exactLevel = -1;
+        } else {
+            levelIdx = UnityEngine.Random.Range(0, levelCount);
+        }
 
         LevelsController.Level level = levelsController.PrepareLevel(selectedPackIdx, levelIdx);
         gameController.OnUIStartClick(level);
+    }
+
+    public void OnLevelNumberInputChange(string value) {
+        if (value.Length > 0) {
+            if (Int32.TryParse(value, out int v)) {
+                exactLevel = v;
+                startButton.GetComponentInChildren<TMP_Text>().text = "Go to level";
+                return;
+            }
+        }
+
+        exactLevel = -1;
+        startButton.GetComponentInChildren<TMP_Text>().text = "Random";
     }
 }
