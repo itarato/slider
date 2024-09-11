@@ -36,6 +36,8 @@ public class SliderCubeController : MonoBehaviour {
     private bool isGameOver = false;
     private float gameOverRiseSpeed;
 
+    private Vector3 preDragPos;
+
     // Start is called before the first frame update
     void Start() {
         SetupAudio();
@@ -75,11 +77,13 @@ public class SliderCubeController : MonoBehaviour {
 
     private void FinishMove() {
         SnapToGrid();
+        Vector3 postDragPos = transform.position;
+
         SmokeStopAll();
         StopScratchSound();
         SetAwayFromWallState();
 
-        gameController.OnUpdateSliderPos(this);
+        if (preDragPos != postDragPos) gameController.OnUpdateSliderPos(this);
     }
 
     private void OnMouseDrag() {
@@ -178,6 +182,8 @@ public class SliderCubeController : MonoBehaviour {
         } else {
             dragOffset = worldPos.x - transform.position.x;
         }
+
+        preDragPos = transform.position;
     }
 
     private void SetAwayFromWallState() {
