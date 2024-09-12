@@ -7,7 +7,7 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 
 ### Wishlist
 
-- Post processing
+- Fix in game header/footer width
 - Level start animation (falling in)
 
 ### Credit
