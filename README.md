@@ -5,10 +5,16 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 ![Screenshot of game](./Misc/screenshot2.png)
 ![Screenshot of menu](./Misc/screenshot1.png)
 
-### Wishlist
+### Todo
 
-- Fix in game header/footer width
+- Perfect game indicator (if done in same steps)
+- Icon
 - Level start animation (falling in)
+- Volume to clunk sound
+- Download levels
+- Config
+  - music
+  - gem colors
 
 ### Credit
 

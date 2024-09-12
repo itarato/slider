@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour {
 
     // Main camera.
     public Camera mainCamera;
-    private float landscapeFOV = 53f;
+    private float landscapeFOV = 65f;
     private float portraitFOV = 95f;
 
     // Reference to the main game UI.
@@ -45,6 +45,7 @@ public class GameController : MonoBehaviour {
     private LevelsController.Level currentLevel;
     public TextMeshProUGUI stepsTextUI;
     public TextMeshProUGUI levelTextUI;
+    public TextMeshProUGUI perfectStepsTextUI;
 
     public static GameController instance;
 
@@ -62,12 +63,17 @@ public class GameController : MonoBehaviour {
         isPhoneDevice = Application.platform == RuntimePlatform.Android;
 
         inGameUI.SetActive(false);
+        perfectStepsTextUI.gameObject.SetActive(false);
 
         ResetGame();
     }
 
     public void Update() {
         AdjustCamera();
+
+        if (perfectStepsTextUI.gameObject.activeInHierarchy) {
+            perfectStepsTextUI.gameObject.transform.localScale = Vector3.one * (1f + Mathf.Sin(Time.frameCount / 10f) / 10f);
+        }
     }
 
     public void OnUIStartClick(LevelsController.Level level) {
