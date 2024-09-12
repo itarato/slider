@@ -63,7 +63,6 @@ public class GameController : MonoBehaviour {
         isPhoneDevice = Application.platform == RuntimePlatform.Android;
 
         inGameUI.SetActive(false);
-        perfectStepsTextUI.gameObject.SetActive(false);
 
         ResetGame();
     }
@@ -71,8 +70,8 @@ public class GameController : MonoBehaviour {
     public void Update() {
         AdjustCamera();
 
-        if (perfectStepsTextUI.gameObject.activeInHierarchy) {
-            perfectStepsTextUI.gameObject.transform.localScale = Vector3.one * (1f + Mathf.Sin(Time.frameCount / 10f) / 10f);
+        if (state == State.GameOver && perfectStepsTextUI.gameObject.activeInHierarchy) {
+            perfectStepsTextUI.gameObject.transform.localScale = Vector3.one * (1f + Mathf.Sin(Time.frameCount / 20f) / 10f);
         }
     }
 
@@ -83,6 +82,8 @@ public class GameController : MonoBehaviour {
     }
 
     private void ResetGame() {
+        perfectStepsTextUI.gameObject.SetActive(false);
+
         foreach (var sliderInstance in sliderInstances) Destroy(sliderInstance);
         sliderInstances.Clear();
     }
@@ -146,6 +147,8 @@ public class GameController : MonoBehaviour {
         audioSource.Play();
         foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.GameOver();
         state = State.GameOver;
+
+        if (steps <= currentLevel.MinStepsRequired()) perfectStepsTextUI.gameObject.SetActive(true);
 
         Invoke("FinishGameAndShowUI", 3f);
     }

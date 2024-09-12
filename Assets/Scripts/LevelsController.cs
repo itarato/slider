@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,6 +55,10 @@ public class LevelsController : MonoBehaviour {
                     }
                 }
             }
+        }
+
+        public int MinStepsRequired() {
+            return Int32.Parse(name);
         }
     }
 
