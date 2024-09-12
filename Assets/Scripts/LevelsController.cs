@@ -13,7 +13,7 @@ public class LevelsController : MonoBehaviour {
             this.levelIdx = levelIdx;
             solved = false;
 
-            Debug.Log("Parse: " + michaelFoglemanFormat);
+            //Debug.Log("Parse: " + michaelFoglemanFormat);
 
             char[] chars = michaelFoglemanFormat.ToCharArray();
             int sliderIdx = 0;
@@ -58,27 +58,28 @@ public class LevelsController : MonoBehaviour {
     }
 
     public TextAsset[] maps;
+    private Dictionary<int, string[]> mapCache = new Dictionary<int, string[]>();
 
     public int PackSize(int packIdx) {
-        string content = maps[packIdx].text.Trim();
+        //Debug.Log("Pack size: " + lines.Length.ToString());
 
-        // TODO: Cache this.
-        string[] lines = content.Split('\n');
-
-        Debug.Log("Pack size: " + lines.Length.ToString());
-
-        return lines.Length;
+        return Levels(packIdx).Length;
     }
 
     public Level PrepareLevel(int packIdx, int levelIdx) {
-        Debug.Log("Prepare level: " + packIdx.ToString() + " : " + levelIdx.ToString());
+        //Debug.Log("Prepare level: " + packIdx.ToString() + " : " + levelIdx.ToString());
 
-        string content = maps[packIdx].text.Trim();
+        return new Level(maps[packIdx].name, levelIdx, Levels(packIdx)[levelIdx]);
+    }
 
-        // TODO: Cache this.
-        string[] lines = content.Split('\n');
+    private string[] Levels(int packIdx) {
+        if (!mapCache.ContainsKey(packIdx)) {
+            string content = maps[packIdx].text.Trim();
 
-        // TODO: Cache the outcome.
-        return new Level(maps[packIdx].name, levelIdx, lines[levelIdx]);
+            // TODO: Cache this.
+            mapCache.Add(packIdx, content.Split('\n'));
+        }
+
+        return mapCache.GetValueOrDefault(packIdx);
     }
 }

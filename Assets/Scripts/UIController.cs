@@ -12,7 +12,8 @@ public class UIController : MonoBehaviour {
     public Button startButton;
     public TMP_InputField exactLevelInput;
 
-    private int selectedPackIdx = 0;
+    // The level from the maps list. -1 means it's a random pack.
+    private int selectedPackIdx = -1;
     private int exactLevel = -1;
 
     // Start is called before the first frame update
@@ -23,27 +24,34 @@ public class UIController : MonoBehaviour {
         }
 
         packDropdown.AddOptions(options);
+        exactLevelInput.gameObject.SetActive(false);
     }
 
     public void OnClickPackDropdown(int idx) {
-        if (idx == 0) return; // Top label.
         selectedPackIdx = idx - 1;
+        exactLevelInput.gameObject.SetActive(selectedPackIdx >= 0);
     }
 
-    // TODO: Rename to start-button.
-    public void OnClickRandomButton() {
+    public void OnClickStartButton() {
         int levelIdx;
-        int levelCount = levelsController.PackSize(selectedPackIdx);
+        int packIdx;
+
+        if (selectedPackIdx < 0) {
+            packIdx = UnityEngine.Random.Range(0, levelsController.maps.Length);
+        } else {
+            packIdx = selectedPackIdx;
+        }
+
+        int levelCount = levelsController.PackSize(packIdx);
 
         if (exactLevel >= 0) {
             levelIdx = exactLevel % levelCount;
-
-            ResetForm();
         } else {
             levelIdx = UnityEngine.Random.Range(0, levelCount);
         }
 
-        LevelsController.Level level = levelsController.PrepareLevel(selectedPackIdx, levelIdx);
+        ResetForm();
+        LevelsController.Level level = levelsController.PrepareLevel(packIdx, levelIdx);
         gameController.OnUIStartClick(level);
     }
 
