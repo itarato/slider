@@ -195,4 +195,10 @@ public class GameController : MonoBehaviour {
 
         FinishGameAndShowUI();
     }
+
+    public void OnClickResetLevel() {
+        CancelInvoke();
+        ResetGame();
+        StartGame(currentLevel.sliders);
+    }
 }

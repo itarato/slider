@@ -9,6 +9,7 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 
 - Reset button to reset current map
 - Play again button
+- Post processing
 
 ### Credit
 
