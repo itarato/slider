@@ -8,6 +8,7 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 ### Wishlist
 
 - Post processing
+- Level start animation (falling in)
 
 ### Credit
 
