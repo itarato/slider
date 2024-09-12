@@ -1,4 +1,4 @@
-# Car Slide
+# Gem Slide
 
 Sliding boxes puzzle. This is a learning project to get into Unity.
 
@@ -7,7 +7,6 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 
 ### Wishlist
 
-- Reset button to reset current map
 - Play again button
 - Post processing
 
