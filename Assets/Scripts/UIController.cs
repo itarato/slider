@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static LevelsController;
 
 public class UIController : MonoBehaviour {
     public TMP_Dropdown packDropdown;
@@ -10,11 +11,14 @@ public class UIController : MonoBehaviour {
     public LevelsController levelsController;
     public GameController gameController;
     public Button startButton;
+    public Button previousLevelButton;
     public TMP_InputField exactLevelInput;
 
     // The level from the maps list. -1 means it's a random pack.
     private int selectedPackIdx = -1;
     private int exactLevel = -1;
+
+    private LevelsController.Level previousLevel;
 
     // Start is called before the first frame update
     void Start() {
@@ -25,6 +29,8 @@ public class UIController : MonoBehaviour {
 
         packDropdown.AddOptions(options);
         exactLevelInput.gameObject.SetActive(false);
+
+        previousLevelButton.gameObject.SetActive(false);
     }
 
     public void OnClickPackDropdown(int idx) {
@@ -52,6 +58,10 @@ public class UIController : MonoBehaviour {
 
         ResetForm();
         LevelsController.Level level = levelsController.PrepareLevel(packIdx, levelIdx);
+
+        previousLevel = level;
+        previousLevelButton.gameObject.SetActive(true);
+
         gameController.OnUIStartClick(level);
     }
 
@@ -65,6 +75,11 @@ public class UIController : MonoBehaviour {
         }
 
         ResetForm();
+    }
+
+    public void OnClickPreviousLevelButton() {
+        ResetForm();
+        gameController.OnUIStartClick(previousLevel);
     }
 
     private void ResetForm() {
