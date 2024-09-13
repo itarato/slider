@@ -7,9 +7,7 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 
 ### Todo
 
-- Perfect game indicator (if done in same steps)
 - Icon
-- Level start animation (falling in)
 - Volume to clunk sound
 - Download levels
 - Config

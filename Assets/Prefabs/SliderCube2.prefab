@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 7736491126890006289}
   - component: {fileID: 4526899748411778618}
   - component: {fileID: 5606655838320790298}
+  - component: {fileID: 5646220665462747297}
   m_Layer: 0
   m_Name: SliderCube2
   m_TagString: Untagged
@@ -370,6 +371,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5646220665462747297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8785782173700670328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e79c2c57e7a6d48abc64887f8f2247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5046674302347513152
 PrefabInstance:
   m_ObjectHideFlags: 0

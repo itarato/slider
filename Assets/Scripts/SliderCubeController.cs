@@ -41,12 +41,10 @@ public class SliderCubeController : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         SetupAudio();
-
         SmokeStopAll();
-
         SetAwayFromWallState();
 
-        gameOverRiseSpeed = Random.Range(0.1f, 2f);
+        gameOverRiseSpeed = Random.Range(0.5f, 4f);
     }
 
     // Update is called once per frame

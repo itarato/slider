@@ -91,15 +91,18 @@ public class GameController : MonoBehaviour {
     private void StartGame(List<Puzzle.Slider> sliders) {
         puzzle.sliders = sliders.Select(e => e.Clone()).ToList();
 
+        float dropHeight = 1f;
+
         foreach (Puzzle.Slider slider in puzzle.sliders) {
             GameObject newSlider;
             int prefabIdx = slider.len - 1;
             if (slider.IsVertical()) {
-                newSlider = Instantiate(sliderCubeCollection[prefabIdx], new Vector3(slider.x + verticalOffset, 0.75f, slider.y + verticalOffset), Quaternion.identity);
+                newSlider = Instantiate(sliderCubeCollection[prefabIdx], new Vector3(slider.x + verticalOffset, dropHeight, slider.y + verticalOffset), Quaternion.identity);
             } else {
-                newSlider = Instantiate(sliderCubeCollection[prefabIdx], new Vector3(slider.x + horizontalXOffset, 0.75f, slider.y + horizontalZOffset), Quaternion.Euler(new Vector3(0f, 90f, 0f)));
+                newSlider = Instantiate(sliderCubeCollection[prefabIdx], new Vector3(slider.x + horizontalXOffset, dropHeight, slider.y + horizontalZOffset), Quaternion.Euler(new Vector3(0f, 90f, 0f)));
             }
             sliderInstances.Add(newSlider);
+            dropHeight += 1f;
 
             if (slider.IsSpecial()) {
                 newSlider.GetComponentInChildren<CubeBodyController>().isSpecial = true;
@@ -150,7 +153,7 @@ public class GameController : MonoBehaviour {
 
         if (steps <= currentLevel.MinStepsRequired()) perfectStepsTextUI.gameObject.SetActive(true);
 
-        Invoke("FinishGameAndShowUI", 3f);
+        Invoke("FinishGameAndShowUI", 2f);
     }
 
     private void UpdateScoreLine() {
