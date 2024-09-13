@@ -12,7 +12,6 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 - Download levels
 - Config
   - music
-  - gem colors
 
 ### Credit
 

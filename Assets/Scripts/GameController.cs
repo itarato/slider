@@ -50,6 +50,7 @@ public class GameController : MonoBehaviour {
     public static GameController instance;
 
     private State state = State.Play;
+    private bool isColorsOn = false;
 
     private void Awake() {
         instance = this;
@@ -112,6 +113,13 @@ public class GameController : MonoBehaviour {
             if (sliderCubeController != null) {
                 sliderCubeController.puzzleSlider = slider;
                 sliderCubeController.gameController = this;
+            }
+
+            if (isColorsOn) {
+                CubeBodyController cubeCtrl = newSlider.GetComponentInChildren<CubeBodyController>();
+                if (cubeCtrl != null) {
+                    cubeCtrl.colorsOn = true;
+                }
             }
         }
 
@@ -212,5 +220,9 @@ public class GameController : MonoBehaviour {
         CancelInvoke();
         ResetGame();
         StartGame(currentLevel.sliders);
+    }
+
+    public void OnToggleColors(bool isOn) {
+        isColorsOn = isOn;
     }
 }

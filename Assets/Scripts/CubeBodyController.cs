@@ -7,6 +7,7 @@ public class CubeBodyController : MonoBehaviour
     private Renderer objRenderer;
     public Material specialMaterial;
     public bool isSpecial = false;
+    public bool colorsOn = false;
 
     // Start is called before the first frame update
     void Start() {
@@ -14,8 +15,8 @@ public class CubeBodyController : MonoBehaviour
 
         if (isSpecial) {
             objRenderer.material = specialMaterial;
-        } else {
-            //objRenderer.material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        } else if (colorsOn) {
+            objRenderer.material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         }
     }
 }
