@@ -11,9 +11,9 @@ public class SlideFallController : MonoBehaviour {
             if (transform.position.y <= 0.75f) {
                 stateIsFalling = false;
                 transform.position = new Vector3(transform.position.x, 0.75f, transform.position.z);
+            } else {
+                transform.Translate(Vector3.down * Time.deltaTime * fallSpeed);
             }
-
-            transform.Translate(Vector3.down * Time.deltaTime * fallSpeed);
         }
     }
 }

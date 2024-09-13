@@ -1,0 +1,11 @@
+GemSlide Privacy Policy
+
+The GemSlide is a strictly play-only game application with the most strict privacy guarantees. These are the following:
+
+- the app does not show any ads and is not connected to any advertisement provider
+- the app is not connected to the internet or any private network at all
+- the app is not communicating to other apps (other than the default device telemetry, which we do not have control over)
+- the app does not save any interaction, including: audio signals, touch signals, gyroscope signals
+- the app does not ask for any user detail
+
+As well the complete source code with all versions is available free and open source at: https://github.com/itarato/slider/
