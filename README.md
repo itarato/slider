@@ -2,8 +2,11 @@
 
 Sliding boxes puzzle. This is a learning project to get into Unity.
 
-![Screenshot of game](./Misc/screenshot2.png)
-![Screenshot of menu](./Misc/screenshot1.png)
+![Screenshot of game](./Misc/gs_no_color.png)
+![Screenshot of game](./Misc/gs_color.png)
+![Screenshot of game](./Misc/gs_winning.png)
+![Screenshot of game](./Misc/gs_menu_minimal.png)
+![Screenshot of game](./Misc/gs_menu.png)
 
 ### Todo
 
