@@ -1576,8 +1576,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Perfect Steps!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fb469e9e1abe6c947b75bc33746008b8, type: 2}
-  m_sharedMaterial: {fileID: -1860209529686916270, guid: fb469e9e1abe6c947b75bc33746008b8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 593648fc56b7c444a989b67823c59aee, type: 2}
+  m_sharedMaterial: {fileID: -1860209529686916270, guid: 593648fc56b7c444a989b67823c59aee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3862,8 +3862,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: GemSlide Puzzle
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fb469e9e1abe6c947b75bc33746008b8, type: 2}
-  m_sharedMaterial: {fileID: -1860209529686916270, guid: fb469e9e1abe6c947b75bc33746008b8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 96033fa0cdb02654eb291b0f57c43d59, type: 2}
+  m_sharedMaterial: {fileID: -1860209529686916270, guid: 96033fa0cdb02654eb291b0f57c43d59, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

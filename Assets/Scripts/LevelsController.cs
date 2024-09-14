@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LevelsController : MonoBehaviour {
     public class Level {
-        public bool solved = false;
         public string name;
         public int levelIdx;
         public List<Puzzle.Slider> sliders = new List<Puzzle.Slider>();
@@ -12,9 +11,6 @@ public class LevelsController : MonoBehaviour {
         public Level(string name, int levelIdx, string michaelFoglemanFormat) {
             this.name = name;
             this.levelIdx = levelIdx;
-            solved = false;
-
-            //Debug.Log("Parse: " + michaelFoglemanFormat);
 
             char[] chars = michaelFoglemanFormat.ToCharArray();
             int sliderIdx = 0;
@@ -62,26 +58,24 @@ public class LevelsController : MonoBehaviour {
         }
     }
 
+    // Collection of map pack file assets.
     public TextAsset[] maps;
     private Dictionary<int, string[]> mapCache = new Dictionary<int, string[]>();
 
     public int PackSize(int packIdx) {
-        //Debug.Log("Pack size: " + lines.Length.ToString());
-
         return Levels(packIdx).Length;
     }
 
     public Level PrepareLevel(int packIdx, int levelIdx) {
-        //Debug.Log("Prepare level: " + packIdx.ToString() + " : " + levelIdx.ToString());
-
         return new Level(maps[packIdx].name, levelIdx, Levels(packIdx)[levelIdx]);
     }
 
+    /**
+     * Caching the extracted raw level data.
+     */
     private string[] Levels(int packIdx) {
         if (!mapCache.ContainsKey(packIdx)) {
             string content = maps[packIdx].text.Trim();
-
-            // TODO: Cache this.
             mapCache.Add(packIdx, content.Split('\n'));
         }
 
