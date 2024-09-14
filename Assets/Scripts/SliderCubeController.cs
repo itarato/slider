@@ -7,11 +7,14 @@ public class SliderCubeController : MonoBehaviour {
     public Puzzle.Slider puzzleSlider;
 
     // Reference to the main (top level) game controller.
+    [HideInInspector]
     public GameController gameController;
 
     // Controls the bounds of the slide (due to edge of the board or another cube).
     // Set by the game controller.
+    [HideInInspector]
     public float maxSlide;
+    [HideInInspector]
     public float minSlide;
 
     // Sounds.
@@ -25,10 +28,10 @@ public class SliderCubeController : MonoBehaviour {
     public ParticleSystem smokeBack;
 
     // Offset to where the mouse grabbed a cube.
-    public float dragOffset = 0f;
+    private float dragOffset = 0f;
 
     // Whether the block got away from the wall (to check if we can clunk).
-    public bool isAwayFromWall = true;
+    private bool isAwayFromWall = true;
     private float awayFromWallDistance = 0.1f;
 
     private bool isGameOver = false;

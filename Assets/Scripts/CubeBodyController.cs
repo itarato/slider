@@ -1,12 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeBodyController : MonoBehaviour
-{
-    private Renderer objRenderer;
+/**
+ * Controls the slider cube prefabs inner cube (the one having a 3D mesh) object.
+ */
+public class CubeBodyController : MonoBehaviour {
+    // Material to use on the exit-slide.
     public Material specialMaterial;
+
+    private Renderer objRenderer;
+
+    // Whether it is the exit-slide.
     public bool isSpecial = false;
+
+    // Whether colors (for slides) are enabled for the game.
     public bool colorsOn = false;
 
     // Start is called before the first frame update

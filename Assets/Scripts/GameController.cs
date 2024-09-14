@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -19,9 +17,12 @@ public class GameController : MonoBehaviour {
     private float landscapeFOV = 65f;
     private float portraitFOV = 95f;
 
-    // Reference to the main game UI.
+    // Reference to the various UIs.
     public GameObject startMenuUI;
     public GameObject inGameUI;
+    public TextMeshProUGUI stepsTextUI;
+    public TextMeshProUGUI levelTextUI;
+    public TextMeshProUGUI perfectStepsTextUI;
 
     // Main puzzle logic.
     private Puzzle puzzle = new Puzzle();
@@ -43,9 +44,6 @@ public class GameController : MonoBehaviour {
     // Level state for the current play - for UI to present.
     private int steps = 0;
     private LevelsController.Level currentLevel;
-    public TextMeshProUGUI stepsTextUI;
-    public TextMeshProUGUI levelTextUI;
-    public TextMeshProUGUI perfectStepsTextUI;
 
     public static GameController instance;
 
@@ -200,6 +198,7 @@ public class GameController : MonoBehaviour {
     }
 
     void AdjustCamera() {
+        // On phone the FOV makes the board too close however both desktop and phone reports prortrait mode.
         if (Screen.orientation == ScreenOrientation.LandscapeLeft ||
             Screen.orientation == ScreenOrientation.LandscapeRight ||
             !isPhoneDevice
