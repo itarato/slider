@@ -15,10 +15,8 @@ public class SliderCubeController : MonoBehaviour {
     public float minSlide;
 
     // Sounds.
-    public AudioClip clonkSound;
-    public AudioClip scratchSound;
-    private AudioSource clonkAudioSource;
-    private AudioSource scratchAudioSource;
+    public AudioSource clonkAudioSource;
+    public AudioSource scratchAudioSource;
 
     private Easing scratchSoundVolumeEasing = new Easing(0.1f);
 
@@ -40,7 +38,6 @@ public class SliderCubeController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        SetupAudio();
         SmokeStopAll();
         SetAwayFromWallState();
 
@@ -97,6 +94,10 @@ public class SliderCubeController : MonoBehaviour {
         } else {
             newP = worldPos.x - dragOffset;
         }
+
+        // Bug: the clonk sound is not played in certain situations. Seemingly when the movement is too fast.
+        //      It's likely that fast movements are skipping the inbetween states almost completely which makes
+        //      the away-from-wall state not register.
 
         if (newP <= minSlide) {
             newP = minSlide;
@@ -158,16 +159,6 @@ public class SliderCubeController : MonoBehaviour {
 
     private void StopScratchSound() {
         if (scratchAudioSource.isPlaying) scratchAudioSource.Stop();
-    }
-
-    private void SetupAudio() {
-        AudioSource[] audioSources = GetComponents<AudioSource>();
-
-        clonkAudioSource = audioSources[0];
-        clonkAudioSource.clip = clonkSound;
-
-        scratchAudioSource = audioSources[1];
-        scratchAudioSource.clip = scratchSound;
     }
 
     private void SaveDragOffset() {

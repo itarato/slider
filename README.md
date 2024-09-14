@@ -10,7 +10,6 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 
 ### Todo
 
-- Intro animation sound
 - Bug: no clink on fast swipe
 - Volume to clink sound
 - Download levels
