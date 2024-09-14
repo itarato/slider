@@ -107,7 +107,7 @@ Material:
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0.03773582, g: 0.03773582, b: 0.03773582, a: 1}
+    - _UnderlayColor: {r: 0.09732112, g: 0.254717, b: 0.254717, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &11400000
 MonoBehaviour:
@@ -121,9 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: SUSE-ExtraBold SDF Outlined
   m_EditorClassIdentifier: 
-  hashCode: 132834835
+  hashCode: 115565591
   material: {fileID: -1860209529686916270}
-  materialHashCode: -1141803053
+  materialHashCode: -1039186345
   m_Version: 1.1.0
   m_SourceFontFileGUID: 0b5ffd7c673d2114fba636b042e84b22
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 0b5ffd7c673d2114fba636b042e84b22, type: 3}
