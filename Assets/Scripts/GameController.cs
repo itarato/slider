@@ -88,11 +88,11 @@ public class GameController : MonoBehaviour {
     }
 
     private void StartGame(List<Puzzle.Slider> sliders) {
-        puzzle.sliders = sliders.Select(e => e.Clone()).ToList();
+        puzzle.ReplaceSliders(sliders.Select(e => e.Clone()).ToList());
 
         float dropHeight = 1f;
 
-        foreach (Puzzle.Slider slider in puzzle.sliders) {
+        foreach (Puzzle.Slider slider in puzzle.GetSliders()) {
             GameObject newSlider;
             int prefabIdx = slider.len - 1;
             if (slider.IsVertical()) {
