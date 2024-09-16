@@ -1,3 +1,5 @@
+#nullable enable
+
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -6,6 +8,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
     private enum State {
         Play,
+        AutoMove,
         GameOver,
     }
 
@@ -34,6 +37,7 @@ public class GameController : MonoBehaviour {
     private static float verticalOffset = -3f;
     private static float horizontalXOffset = -3f;
     private static float horizontalZOffset = -2f;
+    private static float defaultSliderHeight = 0.75f;
 
     // Sounds.
     public AudioClip winningSound;
@@ -72,6 +76,27 @@ public class GameController : MonoBehaviour {
         if (state == State.GameOver && perfectStepsTextUI.gameObject.activeInHierarchy) {
             perfectStepsTextUI.gameObject.transform.localScale = Vector3.one * (1f + Mathf.Sin(Time.frameCount / 20f) / 10f);
         }
+
+        if (Input.GetKeyDown(KeyCode.L)) {
+            Debug.Log("Press L");
+            PuzzleSolver.Move? move = PuzzleSolver.FindSolution(puzzle);
+
+            if (move == null) {
+                Debug.Log("No next move");
+            } else {
+                Debug.Log("Next move: " + move.ToString());
+                // TODO: Prevent all interaction (slider moves + solve button)
+                // Set goal on slider
+                // Wait for slider to sign back
+                // TODO: Put it to background thread!
+
+                SliderCubeController nextMoveSlider = sliderInstances[move.sliderIdx].GetComponent<SliderCubeController>();
+                Vector3 nextWorldPosition = WorldPositionForSliderCoords(nextMoveSlider.puzzleSlider.orientation, move.toX, move.toY);
+
+                nextMoveSlider.autoMoveOn = true;
+                nextMoveSlider.autoMoveTarget = nextWorldPosition;
+            }
+        }
     }
 
     public void OnUIStartClick(LevelsController.Level level) {
@@ -95,10 +120,14 @@ public class GameController : MonoBehaviour {
         foreach (Puzzle.Slider slider in puzzle.GetSliders()) {
             GameObject newSlider;
             int prefabIdx = slider.len - 1;
+
+            Vector3 worldPosition = WorldPositionForSliderCoords(slider.orientation, slider.x, slider.y);
+            worldPosition.y = dropHeight;
+
             if (slider.IsVertical()) {
-                newSlider = Instantiate(sliderCubeCollection[prefabIdx], new Vector3(slider.x + verticalOffset, dropHeight, slider.y + verticalOffset), Quaternion.identity);
+                newSlider = Instantiate(sliderCubeCollection[prefabIdx], worldPosition, Quaternion.identity);
             } else {
-                newSlider = Instantiate(sliderCubeCollection[prefabIdx], new Vector3(slider.x + horizontalXOffset, dropHeight, slider.y + horizontalZOffset), Quaternion.Euler(new Vector3(0f, 90f, 0f)));
+                newSlider = Instantiate(sliderCubeCollection[prefabIdx], worldPosition, Quaternion.Euler(new Vector3(0f, 90f, 0f)));
             }
             sliderInstances.Add(newSlider);
             dropHeight += 1f;
@@ -159,7 +188,7 @@ public class GameController : MonoBehaviour {
 
         if (steps <= currentLevel.MinStepsRequired()) perfectStepsTextUI.gameObject.SetActive(true);
 
-        Invoke("FinishGameAndShowUI", 2f);
+        Invoke(nameof(FinishGameAndShowUI), 2f);
     }
 
     private void UpdateScoreLine() {
@@ -223,5 +252,13 @@ public class GameController : MonoBehaviour {
 
     public void OnToggleColors(bool isOn) {
         isColorsOn = isOn;
+    }
+
+    private Vector3 WorldPositionForSliderCoords(Puzzle.Orientation orienation, int x, int y) {
+        if (orienation == Puzzle.Orientation.Vertical) {
+            return new Vector3(x + verticalOffset, defaultSliderHeight, y + verticalOffset);
+        } else {
+            return new Vector3(x + horizontalXOffset, defaultSliderHeight, y + horizontalZOffset);
+        }
     }
 }

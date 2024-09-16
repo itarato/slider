@@ -24,6 +24,13 @@ public class Puzzle {
             this.y = y;
         }
 
+        public override bool Equals(Object obj) {
+            if (obj == null || !(obj is Slider)) return false;
+
+            Slider other = (Slider)obj;
+            return id == other.id && orientation == other.orientation && len == other.len && x == other.x && y == other.y;
+        }
+
         public bool IsVertical() {
             return orientation == Orientation.Vertical;
         }
@@ -57,6 +64,10 @@ public class Puzzle {
             return Puzzle.SliderHash(x, y);
         }
 
+        public override int GetHashCode() {
+            return (int)Hash();
+        }
+
         public void ResetFromHash(char hash) {
             x = hash >> 4;
             y = hash & 0b1111;
@@ -73,6 +84,8 @@ public class Puzzle {
 
         Puzzle clone = new();
         clone.sliders = cloneSliders;
+        clone.memory = memory;
+        clone.specialSliderIdx = specialSliderIdx;
 
         return clone;
     }

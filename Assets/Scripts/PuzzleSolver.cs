@@ -2,13 +2,39 @@
 
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 public class PuzzleSolver {
-    public static Puzzle? FindSolution(Puzzle state) {
-        if (state.IsEndPosition()) {
-            Console.WriteLine("Already end state.");
+    public class Move {
+        public int sliderIdx;
+
+        public int fromX;
+        public int fromY;
+
+        public int toX;
+        public int toY;
+
+        public Move(int sliderIdx, int fromX, int fromY, int toX, int toY) {
+            this.sliderIdx = sliderIdx;
+            this.fromX = fromX;
+            this.fromY = fromY;
+            this.toX = toX;
+            this.toY = toY;
+        }
+
+        public override string ToString() {
+            return "Move #" + sliderIdx.ToString() + " " + fromX.ToString() + ":" + fromY.ToString() + " -> " + toX.ToString() + ":" + toY.ToString();
+        }
+    }
+
+    public static Move? FindSolution(Puzzle startState) {
+        if (startState.IsEndPosition()) {
+            Debug.Log("Already end state.");
             return null;
         }
+
+        Puzzle state = startState.Clone();
+        Puzzle originState = state.Clone();
 
         HashSet<string> knownHashes = new HashSet<string>();
         Dictionary<string, string> stepParentMap = new();
@@ -18,7 +44,7 @@ public class PuzzleSolver {
         worklist.AddLast(state.Hash());
 
         for (int stateCounter = 0; worklist.Count > 0; stateCounter++) {
-            if (stateCounter % 1000 == 0) Console.WriteLine("Batch iter: #{0}", stateCounter);
+            if (stateCounter % 1000 == 0) Debug.Log("Batch iter: " + stateCounter.ToString());
 
             char[] currentHash = worklist.First!.Value;
             worklist.RemoveFirst();
@@ -27,8 +53,8 @@ public class PuzzleSolver {
             state.ResetFromHash(currentHash);
 
             if (state.IsEndPosition()) {
-                Console.WriteLine("Found solution!!!");
-                return ExtractNextStep(state, stepParentMap);
+                Debug.Log("Found solution!!!");
+                return ExtractNextStep(state, originState, stepParentMap);
             }
 
             //find all possible next states
@@ -46,11 +72,11 @@ public class PuzzleSolver {
             }
         }
 
-        Console.WriteLine("No solution.");
+        Debug.Log("No solution.");
         return null;
     }
 
-    private static Puzzle? ExtractNextStep(Puzzle state, Dictionary<string, string> stepParentMap) {
+    private static Move? ExtractNextStep(Puzzle state, Puzzle originState, Dictionary<string, string> stepParentMap) {
         string currentStep = new string(state.Hash());
         // Head: solution / tail: current state. Tail-1: next step.
         List<string> path = new List<string> { currentStep };
@@ -68,13 +94,25 @@ public class PuzzleSolver {
         }
 
         if (path.Count < 2) {
-            Console.WriteLine("ERROR. Not enough steps and it did not fail at end-pos detection. Investigate.");
+            Debug.Log("ERROR. Not enough steps and it did not fail at end-pos detection. Investigate.");
             return null;
         }
 
         string nextStepHashString = path[path.Count - 2];
         char[] hash = nextStepHashString.ToCharArray();
         state.ResetFromHash(hash);
+
+        for (int i = 0; i < state.GetSliders().Count; i++) {
+            if (!state.GetSliders()[i].Equals(originState.GetSliders()[i])) {
+                return new Move(
+                    i,
+                    originState.GetSliders()[i].x,
+                    originState.GetSliders()[i].y,
+                    state.GetSliders()[i].x,
+                    state.GetSliders()[i].y
+                );
+            }
+        }
 
         return null;
     }

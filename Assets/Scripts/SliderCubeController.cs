@@ -39,6 +39,10 @@ public class SliderCubeController : MonoBehaviour {
 
     private Vector3 preDragPos;
 
+    // Auto move (to solution) vars.
+    public bool autoMoveOn = false;
+    public Vector3 autoMoveTarget;
+
     // Start is called before the first frame update
     void Start() {
         SmokeStopAll();
@@ -53,6 +57,16 @@ public class SliderCubeController : MonoBehaviour {
             transform.Translate(Vector3.up * Time.deltaTime * gameOverRiseSpeed);
 
             return;
+        }
+
+        if (autoMoveOn) {
+            if (Vector3.Distance(transform.position, autoMoveTarget) <= 0.1) {
+                autoMoveOn = false;
+                FinishMove();
+            } else {
+                Vector3 autoMoveDiff = autoMoveTarget - transform.position;
+                transform.position = transform.position + (autoMoveDiff / 4f);
+            }
         }
 
         scratchSoundVolumeEasing.Update();
