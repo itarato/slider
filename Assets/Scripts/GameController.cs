@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour {
 
     // Level state for the current play - for UI to present.
     private int steps = 0;
-    private LevelsController.Level currentLevel;
+    private LevelsController.Level? currentLevel;
 
     public static GameController instance;
 
@@ -186,14 +186,14 @@ public class GameController : MonoBehaviour {
         foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.GameOver();
         state = State.GameOver;
 
-        if (steps <= currentLevel.MinStepsRequired()) perfectStepsTextUI.gameObject.SetActive(true);
+        if (steps <= currentLevel!.MinStepsRequired()) perfectStepsTextUI.gameObject.SetActive(true);
 
         Invoke(nameof(FinishGameAndShowUI), 2f);
     }
 
     private void UpdateScoreLine() {
         stepsTextUI.text = "Steps: " + steps.ToString();
-        levelTextUI.text = "Pack: " + currentLevel.name + " moves | Level #" + currentLevel.levelIdx.ToString();
+        levelTextUI.text = "Pack: " + currentLevel!.name + " moves | Level #" + currentLevel!.levelIdx.ToString();
     }
 
     private void FinishGameAndShowUI() {
@@ -247,7 +247,7 @@ public class GameController : MonoBehaviour {
     public void OnClickResetLevel() {
         CancelInvoke();
         ResetGame();
-        StartGame(currentLevel.sliders);
+        StartGame(currentLevel!.sliders);
     }
 
     public void OnToggleColors(bool isOn) {
