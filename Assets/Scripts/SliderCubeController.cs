@@ -62,7 +62,7 @@ public class SliderCubeController : MonoBehaviour {
         if (autoMoveOn) {
             if (Vector3.Distance(transform.position, autoMoveTarget) <= 0.1) {
                 autoMoveOn = false;
-                FinishMove();
+                FinishMove(true);
             } else {
                 Vector3 autoMoveDiff = autoMoveTarget - transform.position;
                 transform.position = transform.position + (autoMoveDiff / 4f);
@@ -87,7 +87,7 @@ public class SliderCubeController : MonoBehaviour {
         FinishMove();
     }
 
-    private void FinishMove() {
+    private void FinishMove(bool forceUpdateSliderPos = false) {
         SnapToGrid();
         Vector3 postDragPos = transform.position;
 
@@ -95,7 +95,7 @@ public class SliderCubeController : MonoBehaviour {
         StopScratchSound();
         SetAwayFromWallState();
 
-        if (preDragPos != postDragPos) gameController.OnUpdateSliderPos(this);
+        if (preDragPos != postDragPos || forceUpdateSliderPos) gameController.OnUpdateSliderPos(this);
     }
 
     private void OnMouseDrag() {
