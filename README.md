@@ -11,6 +11,7 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 ### Todo
 
 - Bug: no clink on fast swipe
+- Bug: 35/412 - solution get stuck
 - Volume to clink sound
 - Download levels
 - Config

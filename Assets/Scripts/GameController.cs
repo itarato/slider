@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour {
     public TextMeshProUGUI perfectStepsTextUI;
 
     // Main puzzle logic.
-    private Puzzle puzzle = new Puzzle();
+    private Common.Puzzle puzzle = new Common.Puzzle();
 
     // 3D object instances according to the puzzle pieces.
     private List<GameObject> sliderInstances = new List<GameObject>();
@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.L)) {
             Debug.Log("Press L");
-            PuzzleSolver.Move? move = PuzzleSolver.FindSolution(puzzle);
+            Common.PuzzleSolver.Move? move = Common.PuzzleSolver.FindSolution(puzzle);
 
             if (move == null) {
                 Debug.Log("No next move");
@@ -112,12 +112,12 @@ public class GameController : MonoBehaviour {
         sliderInstances.Clear();
     }
 
-    private void StartGame(List<Puzzle.Slider> sliders) {
+    private void StartGame(List<Common.Puzzle.Slider> sliders) {
         puzzle.ReplaceSliders(sliders.Select(e => e.Clone()).ToList());
 
         float dropHeight = 1f;
 
-        foreach (Puzzle.Slider slider in puzzle.GetSliders()) {
+        foreach (Common.Puzzle.Slider slider in puzzle.GetSliders()) {
             GameObject newSlider;
             int prefabIdx = slider.len - 1;
 
@@ -162,7 +162,7 @@ public class GameController : MonoBehaviour {
 
     public void OnUpdateSliderPos(SliderCubeController sliderCubeController) {
         //Debug.Log("OnUpdateSliderPos");
-        Puzzle.Slider slider = sliderCubeController.puzzleSlider;
+        Common.Puzzle.Slider slider = sliderCubeController.puzzleSlider;
 
         // Update current position.
         if (slider.IsVertical()) {
@@ -209,7 +209,7 @@ public class GameController : MonoBehaviour {
             SliderCubeController sliderCubeController = sliderInstance.GetComponent<SliderCubeController>();
             if (sliderCubeController == null) continue;
 
-            Puzzle.Slider slider = sliderCubeController.puzzleSlider;
+            Common.Puzzle.Slider slider = sliderCubeController.puzzleSlider;
 
             int min = slider.cachedMinBound;
             int max = slider.cachedMaxBound;
@@ -254,8 +254,8 @@ public class GameController : MonoBehaviour {
         isColorsOn = isOn;
     }
 
-    private Vector3 WorldPositionForSliderCoords(Puzzle.Orientation orienation, int x, int y) {
-        if (orienation == Puzzle.Orientation.Vertical) {
+    private Vector3 WorldPositionForSliderCoords(Common.Puzzle.Orientation orienation, int x, int y) {
+        if (orienation == Common.Puzzle.Orientation.Vertical) {
             return new Vector3(x + verticalOffset, defaultSliderHeight, y + verticalOffset);
         } else {
             return new Vector3(x + horizontalXOffset, defaultSliderHeight, y + horizontalZOffset);

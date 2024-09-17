@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SliderCubeController : MonoBehaviour {
     // Reference to the main puzzle logic.
-    public Puzzle.Slider puzzleSlider;
+    public Common.Puzzle.Slider puzzleSlider;
 
     // Reference to the main (top level) game controller.
     [HideInInspector]

@@ -6,7 +6,7 @@ public class LevelsController : MonoBehaviour {
     public class Level {
         public string name;
         public int levelIdx;
-        public List<Puzzle.Slider> sliders = new List<Puzzle.Slider>();
+        public List<Common.Puzzle.Slider> sliders = new List<Common.Puzzle.Slider>();
 
         public Level(string name, int levelIdx, string michaelFoglemanFormat) {
             this.name = name;
@@ -23,14 +23,14 @@ public class LevelsController : MonoBehaviour {
                     if (c == 'o') {
                         // Noop.
                     } else if (c == 'x') {
-                        sliders.Add(new Puzzle.Slider(sliderIdx++, Puzzle.Orientation.Horizontal, 1, x, y_rev));
+                        sliders.Add(new Common.Puzzle.Slider(sliderIdx++, Common.Puzzle.Orientation.Horizontal, 1, x, y_rev));
                     } else {
                         int len = 2;
-                        Puzzle.Orientation orientation;
+                        Common.Puzzle.Orientation orientation;
                         chars[i] = 'o';
 
                         if (x < 5 && chars[i + 1] == c) {
-                            orientation = Puzzle.Orientation.Horizontal;
+                            orientation = Common.Puzzle.Orientation.Horizontal;
                             chars[i + 1] = 'o';
 
                             if (x < 4 && chars[i + 2] == c) {
@@ -38,7 +38,7 @@ public class LevelsController : MonoBehaviour {
                                 chars[i + 2] = 'o';
                             }
                         } else {
-                            orientation = Puzzle.Orientation.Vertical;
+                            orientation = Common.Puzzle.Orientation.Vertical;
                             chars[i - 6] = 'o';
 
                             if (y > 1 && chars[i - 12] == c) {
@@ -47,7 +47,7 @@ public class LevelsController : MonoBehaviour {
                             }
                         }
 
-                        sliders.Add(new Puzzle.Slider(sliderIdx++, orientation, len, x, y_rev));
+                        sliders.Add(new Common.Puzzle.Slider(sliderIdx++, orientation, len, x, y_rev));
                     }
                 }
             }
