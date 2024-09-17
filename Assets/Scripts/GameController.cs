@@ -76,26 +76,26 @@ public class GameController : MonoBehaviour {
         if (state == State.GameOver && perfectStepsTextUI.gameObject.activeInHierarchy) {
             perfectStepsTextUI.gameObject.transform.localScale = Vector3.one * (1f + Mathf.Sin(Time.frameCount / 20f) / 10f);
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.L)) {
-            Debug.Log("Press L");
-            Common.PuzzleSolver.Move? move = Common.PuzzleSolver.FindSolution(puzzle);
+    public void OnClickHintButton() {
+        Debug.Log("Press L");
+        Common.PuzzleSolver.Move? move = Common.PuzzleSolver.FindSolution(puzzle);
 
-            if (move == null) {
-                Debug.Log("No next move");
-            } else {
-                Debug.Log("Next move: " + move.ToString());
-                // TODO: Prevent all interaction (slider moves + solve button)
-                // Set goal on slider
-                // Wait for slider to sign back
-                // TODO: Put it to background thread!
+        if (move == null) {
+            Debug.Log("No next move");
+        } else {
+            Debug.Log("Next move: " + move.ToString());
+            // TODO: Prevent all interaction (slider moves + solve button)
+            // Set goal on slider
+            // Wait for slider to sign back
+            // TODO: Put it to background thread!
 
-                SliderCubeController nextMoveSlider = sliderInstances[move.sliderIdx].GetComponent<SliderCubeController>();
-                Vector3 nextWorldPosition = WorldPositionForSliderCoords(nextMoveSlider.puzzleSlider.orientation, move.toX, move.toY);
+            SliderCubeController nextMoveSlider = sliderInstances[move.sliderIdx].GetComponent<SliderCubeController>();
+            Vector3 nextWorldPosition = WorldPositionForSliderCoords(nextMoveSlider.puzzleSlider.orientation, move.toX, move.toY);
 
-                nextMoveSlider.autoMoveOn = true;
-                nextMoveSlider.autoMoveTarget = nextWorldPosition;
-            }
+            nextMoveSlider.autoMoveOn = true;
+            nextMoveSlider.autoMoveTarget = nextWorldPosition;
         }
     }
 
