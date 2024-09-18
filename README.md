@@ -12,6 +12,7 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 
 - Volume to clink sound
 - Clunk sound during hint
+- Prevent actions during hint
 
 Low priority:
 

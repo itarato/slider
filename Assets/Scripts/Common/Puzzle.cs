@@ -77,7 +77,7 @@ namespace Common {
 
         private List<Slider> sliders = new List<Slider>();
         private int[,] memory = new int[6, 6];
-        private int specialSliderIdx = -1;
+        public int specialSliderIdx = -1;
 
         public Puzzle Clone() {
             List<Slider> cloneSliders = new List<Slider>();

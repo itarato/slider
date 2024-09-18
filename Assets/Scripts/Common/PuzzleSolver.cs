@@ -30,7 +30,13 @@ namespace Common {
         public static Move? FindSolution(Puzzle startState) {
             if (startState.IsEndPosition()) {
                 Debug.Log("Already end state.");
-                return null;
+                return new Move(
+                    startState.specialSliderIdx,
+                    startState.GetSliders()[startState.specialSliderIdx].x,
+                    startState.GetSliders()[startState.specialSliderIdx].y,
+                    5,
+                    3
+                );
             }
 
             Puzzle state = startState.Clone();
