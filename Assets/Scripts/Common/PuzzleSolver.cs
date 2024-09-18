@@ -43,9 +43,7 @@ namespace Common {
             LinkedList<char[]> worklist = new LinkedList<char[]>();
             worklist.AddLast(state.Hash());
 
-            for (int stateCounter = 0; worklist.Count > 0; stateCounter++) {
-                if (stateCounter % 1000 == 0) Debug.Log("Batch iter: " + stateCounter.ToString());
-
+            for (; worklist.Count > 0;) {
                 char[] currentHash = worklist.First!.Value;
                 worklist.RemoveFirst();
 

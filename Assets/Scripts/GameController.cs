@@ -79,8 +79,12 @@ public class GameController : MonoBehaviour {
     }
 
     public void OnClickHintButton() {
-        Debug.Log("Press L");
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
         Common.PuzzleSolver.Move? move = Common.PuzzleSolver.FindSolution(puzzle);
+        sw.Stop();
+
+        Debug.Log($"Solution time: {sw.Elapsed.TotalMilliseconds}ms");
 
         if (move == null) {
             Debug.Log("No next move");

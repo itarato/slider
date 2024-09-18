@@ -11,10 +11,12 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 ### Todo
 
 - Volume to clink sound
+- Clunk sound during hint
 
 Low priority:
 
 - Bug: no clink on fast swipe
+- Hint to bg thread
 - Download levels
 - Config: music/sound
 
