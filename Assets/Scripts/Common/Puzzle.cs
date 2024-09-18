@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Common {
     public class Puzzle {
@@ -25,7 +26,7 @@ namespace Common {
                 this.y = y;
             }
 
-            public override bool Equals(Object obj) {
+            public override bool Equals(System.Object obj) {
                 if (obj == null || !(obj is Slider)) return false;
 
                 Slider other = (Slider)obj;
@@ -111,9 +112,12 @@ namespace Common {
             }
         }
 
+        /**
+         * This function expects the exit slide to exist.
+         */
         public bool IsEndPosition() {
             if (specialSliderIdx == -1) {
-                Console.WriteLine("ERROR! Special slider not found.");
+                Debug.Log("ERROR! Special slider not found.");
                 return false;
             }
 

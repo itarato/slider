@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
         Play,
         AutoMove,
         GameOver,
+        HintProcessing,
     }
 
     // Cube prefabs to pick for instantiation.
@@ -78,21 +79,36 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    public void OnClickHintButton() {
+    private void SetHintProcessingState() {
+        state = State.HintProcessing;
+        foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.SetNonInteractive();
+    }
+
+    private void UnsetHintProcessingState() {
+        state = State.Play;
+        foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.SetInteractive();
+    }
+
+    public async void OnClickHintButton() {
+        if (state != State.Play) return;
+
+        SetHintProcessingState();
+
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
-        Common.PuzzleSolver.Move? move = Common.PuzzleSolver.FindSolution(puzzle);
+        Common.PuzzleSolver.Move? move = await Common.PuzzleSolver.FindSolution(puzzle);
         sw.Stop();
+
+        UnsetHintProcessingState();
+        // TODO: Sliders are still interactive during automove. Fix that.
 
         Debug.Log($"Solution time: {sw.Elapsed.TotalMilliseconds}ms");
 
         if (move == null) {
-            Debug.Log("No next move");
+            Debug.Log("ERROR! No solution.");
         } else {
-            Debug.Log("Next move: " + move.ToString());
-            // TODO: Prevent all interaction (slider moves + solve button)
-            // Set goal on slider
-            // Wait for slider to sign back
+            //Debug.Log("Next move: " + move.ToString());
+            // TODO: Prevent all interaction (slider moves + solve button
             // TODO: Put it to background thread!
 
             SliderCubeController nextMoveSlider = sliderInstances[move.sliderIdx].GetComponent<SliderCubeController>();

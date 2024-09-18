@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SliderCubeController : MonoBehaviour {
+    private enum State {
+        Interactive,
+        NonInteractive,
+        GameOver,
+    }
+
     // Reference to the main puzzle logic.
     public Common.Puzzle.Slider puzzleSlider;
 
@@ -34,8 +40,9 @@ public class SliderCubeController : MonoBehaviour {
     private bool isAwayFromWall = true;
     private float awayFromWallDistance = 0.1f;
 
-    private bool isGameOver = false;
+    private State state = State.Interactive;
     private float gameOverRiseSpeed;
+    private float hintMoveSpeed = 6f;
 
     private Vector3 preDragPos;
 
@@ -53,7 +60,7 @@ public class SliderCubeController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (isGameOver) {
+        if (state == State.GameOver) {
             transform.Translate(Vector3.up * Time.deltaTime * gameOverRiseSpeed);
 
             return;
@@ -64,8 +71,13 @@ public class SliderCubeController : MonoBehaviour {
                 autoMoveOn = false;
                 FinishMove(true);
             } else {
-                Vector3 autoMoveDiff = autoMoveTarget - transform.position;
-                transform.position = transform.position + (autoMoveDiff / 4f);
+                float dir;
+                if (puzzleSlider.IsVertical()) {
+                    dir = Mathf.Sign(autoMoveTarget.z - transform.position.z);
+                } else {
+                    dir = Mathf.Sign(autoMoveTarget.x - transform.position.x);
+                }
+                transform.Translate(Vector3.forward * dir * Time.deltaTime * hintMoveSpeed);
             }
         }
 
@@ -77,13 +89,13 @@ public class SliderCubeController : MonoBehaviour {
     }
 
     private void OnMouseDown() {
-        if (isGameOver) return;
+        if (state == State.GameOver || state == State.NonInteractive) return;
 
         SaveDragOffset();
     }
 
     private void OnMouseUp() {
-        if (isGameOver) return;
+        if (state == State.GameOver || state == State.NonInteractive) return;
         FinishMove();
     }
 
@@ -99,7 +111,7 @@ public class SliderCubeController : MonoBehaviour {
     }
 
     private void OnMouseDrag() {
-        if (isGameOver) return;
+        if (state == State.GameOver || state == State.NonInteractive) return;
 
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 9.5f;
@@ -243,9 +255,17 @@ public class SliderCubeController : MonoBehaviour {
     }
 
     public void GameOver() {
-        isGameOver = true;
+        state = State.GameOver;
         SmokeStopAll();
         StopScratchSound();
         SnapToGrid();
+    }
+
+    public void SetInteractive() {
+        state = State.Interactive;
+    }
+
+    public void SetNonInteractive() {
+        state = State.NonInteractive;
     }
 }

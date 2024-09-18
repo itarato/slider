@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Common {
@@ -27,57 +28,56 @@ namespace Common {
             }
         }
 
-        public static Move? FindSolution(Puzzle startState) {
-            if (startState.IsEndPosition()) {
-                Debug.Log("Already end state.");
-                return new Move(
-                    startState.specialSliderIdx,
-                    startState.GetSliders()[startState.specialSliderIdx].x,
-                    startState.GetSliders()[startState.specialSliderIdx].y,
-                    5,
-                    3
-                );
-            }
-
-            Puzzle state = startState.Clone();
-            Puzzle originState = state.Clone();
-
-            HashSet<string> knownHashes = new HashSet<string>();
-            Dictionary<string, string> stepParentMap = new();
-            knownHashes.Add(new string(state.Hash()));
-
-            LinkedList<char[]> worklist = new LinkedList<char[]>();
-            worklist.AddLast(state.Hash());
-
-            for (; worklist.Count > 0;) {
-                char[] currentHash = worklist.First!.Value;
-                worklist.RemoveFirst();
-
-                //setup state
-                state.ResetFromHash(currentHash);
-
-                if (state.IsEndPosition()) {
-                    Debug.Log("Found solution!!!");
-                    return ExtractNextStep(state, originState, stepParentMap);
+        async public static Task<Move?> FindSolution(Puzzle startState) {
+            return await Task.Run(() => {
+                if (startState.IsEndPosition()) {
+                    return new Move(
+                        startState.specialSliderIdx,
+                        startState.GetSliders()[startState.specialSliderIdx].x,
+                        startState.GetSliders()[startState.specialSliderIdx].y,
+                        5,
+                        3
+                    );
                 }
 
-                //find all possible next states
-                List<char[]> allPossibleNextStates = state.AllPossibleStates();
-                foreach (var possibleNextState in allPossibleNextStates) {
-                    //  filter to not-yet seen ones
-                    string newStateString = new string(possibleNextState);
-                    if (knownHashes.Contains(newStateString)) continue;
+                Puzzle state = startState.Clone();
+                Puzzle originState = state.Clone();
 
-                    //  push it to the end of worklist
-                    knownHashes.Add(newStateString);
-                    worklist.AddLast(possibleNextState);
+                HashSet<string> knownHashes = new HashSet<string>();
+                Dictionary<string, string> stepParentMap = new();
+                knownHashes.Add(new string(state.Hash()));
 
-                    stepParentMap[newStateString] = new string(currentHash);
+                LinkedList<char[]> worklist = new LinkedList<char[]>();
+                worklist.AddLast(state.Hash());
+
+                for (; worklist.Count > 0;) {
+                    char[] currentHash = worklist.First!.Value;
+                    worklist.RemoveFirst();
+
+                    //setup state
+                    state.ResetFromHash(currentHash);
+
+                    if (state.IsEndPosition()) {
+                        return ExtractNextStep(state, originState, stepParentMap);
+                    }
+
+                    //find all possible next states
+                    List<char[]> allPossibleNextStates = state.AllPossibleStates();
+                    foreach (var possibleNextState in allPossibleNextStates) {
+                        //  filter to not-yet seen ones
+                        string newStateString = new string(possibleNextState);
+                        if (knownHashes.Contains(newStateString)) continue;
+
+                        //  push it to the end of worklist
+                        knownHashes.Add(newStateString);
+                        worklist.AddLast(possibleNextState);
+
+                        stepParentMap[newStateString] = new string(currentHash);
+                    }
                 }
-            }
 
-            Debug.Log("No solution.");
-            return null;
+                return null;
+            });
         }
 
         private static Move? ExtractNextStep(Puzzle state, Puzzle originState, Dictionary<string, string> stepParentMap) {
