@@ -31,6 +31,9 @@ namespace Common {
         async public static Task<Move?> FindSolution(Puzzle startState) {
             return await Task.Run(() => {
                 if (startState.IsEndPosition()) {
+                    //Debug.Log("End position!");
+                    //Debug.Log(startState.DebugDump());
+
                     return new Move(
                         startState.specialSliderIdx,
                         startState.GetSliders()[startState.specialSliderIdx].x,

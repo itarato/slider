@@ -123,7 +123,7 @@ namespace Common {
 
             for (int i = 5; i >= 2; i--) {
                 if (memory[2, i] == specialSliderIdx) return true;
-                if (memory[2, i] > 0) return false;
+                if (memory[2, i] >= 0) return false;
             }
 
             return true;
@@ -265,6 +265,27 @@ namespace Common {
 
         public static char SliderHash(int x, int y) {
             return (char)((char)x << 4 | (char)y);
+        }
+
+        public string DebugDump() {
+            string dump = "Slider count: " + sliders.Count.ToString() + "\nSpecial ID: " + specialSliderIdx + "\n";
+
+            dump += "  012345\n";
+
+            for (int i = 0; i < 6; i++) {
+                dump += (5 - i).ToString() + " ";
+
+                for (int j = 0; j < 6; j++) {
+                    if (memory[i, j] == -1) {
+                        dump += ".";
+                    } else {
+                        dump += Convert.ToString(memory[i, j], 16);
+                    }
+                }
+                dump += "\n";
+            }
+
+            return dump;
         }
     }
 }

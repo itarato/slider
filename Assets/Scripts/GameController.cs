@@ -79,33 +79,26 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    private void SetHintProcessingState() {
-        state = State.HintProcessing;
-        foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.SetNonInteractive();
-    }
-
-    private void UnsetHintProcessingState() {
-        state = State.Play;
-        foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.SetInteractive();
-    }
-
     public async void OnClickHintButton() {
         if (state != State.Play) return;
 
-        SetHintProcessingState();
+        state = State.HintProcessing;
+        foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.SetNonInteractive();
 
-        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-        sw.Start();
+        //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        //sw.Start();
         Common.PuzzleSolver.Move? move = await Common.PuzzleSolver.FindSolution(puzzle);
-        sw.Stop();
+        //sw.Stop();
 
-        UnsetHintProcessingState();
         // TODO: Sliders are still interactive during automove. Fix that.
 
-        Debug.Log($"Solution time: {sw.Elapsed.TotalMilliseconds}ms");
+        //Debug.Log($"Solution time: {sw.Elapsed.TotalMilliseconds}ms");
 
         if (move == null) {
             Debug.Log("ERROR! No solution.");
+
+            state = State.Play;
+            foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.SetInteractive();
         } else {
             //Debug.Log("Next move: " + move.ToString());
             // TODO: Prevent all interaction (slider moves + solve button
@@ -117,6 +110,7 @@ public class GameController : MonoBehaviour {
             nextMoveSlider.autoMoveOn = true;
             nextMoveSlider.autoMoveTarget = nextWorldPosition;
         }
+
     }
 
     public void OnUIStartClick(LevelsController.Level level) {
@@ -181,6 +175,11 @@ public class GameController : MonoBehaviour {
     }
 
     public void OnUpdateSliderPos(SliderCubeController sliderCubeController) {
+        if (state == State.HintProcessing) {
+            state = State.Play;
+            foreach (var _slider in sliderInstances) _slider.GetComponent<SliderCubeController>()?.SetInteractive();
+        }
+
         //Debug.Log("OnUpdateSliderPos");
         Common.Puzzle.Slider slider = sliderCubeController.puzzleSlider;
 
@@ -259,8 +258,7 @@ public class GameController : MonoBehaviour {
     }
 
     public void OnClickExitLevel() {
-        if (state == State.GameOver) return;
-
+        CancelInvoke();
         FinishGameAndShowUI();
     }
 
