@@ -12,8 +12,6 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 
 - Volume to clink sound
 - Clunk sound during hint
-- Prevent actions during hint
-- Hint animation speed on phone is slow
 - Hint speed in game mode is slow (180ms vs 20ms)
 
 Low priority:

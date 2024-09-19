@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
     private enum State {
@@ -27,6 +28,7 @@ public class GameController : MonoBehaviour {
     public TextMeshProUGUI stepsTextUI;
     public TextMeshProUGUI levelTextUI;
     public TextMeshProUGUI perfectStepsTextUI;
+    public Button hintButton;
 
     // Main puzzle logic.
     private Common.Puzzle puzzle = new Common.Puzzle();
@@ -84,11 +86,14 @@ public class GameController : MonoBehaviour {
 
         state = State.HintProcessing;
         foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.SetNonInteractive();
+        hintButton.GetComponentInChildren<TMP_Text>().text = "Wait";
 
         //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         //sw.Start();
         Common.PuzzleSolver.Move? move = await Common.PuzzleSolver.FindSolution(puzzle);
         //sw.Stop();
+
+        hintButton.GetComponentInChildren<TMP_Text>().text = "Hint";
 
         // TODO: Sliders are still interactive during automove. Fix that.
 
