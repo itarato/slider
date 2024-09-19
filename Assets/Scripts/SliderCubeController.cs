@@ -69,6 +69,7 @@ public class SliderCubeController : MonoBehaviour {
         if (autoMoveOn) {
             if (Vector3.Distance(transform.position, autoMoveTarget) <= 0.1) {
                 autoMoveOn = false;
+                isAwayFromWall = true;
                 FinishMove(true);
             } else {
                 float dir;

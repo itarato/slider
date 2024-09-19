@@ -1,5 +1,3 @@
-#nullable enable
-
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -50,12 +48,14 @@ public class GameController : MonoBehaviour {
 
     // Level state for the current play - for UI to present.
     private int steps = 0;
-    private LevelsController.Level? currentLevel;
+    private LevelsController.Level currentLevel;
 
     public static GameController instance;
 
     private State state = State.Play;
     private bool isColorsOn = false;
+
+    private float perfectStepsTextSinVal = 0f;
 
     private void Awake() {
         instance = this;
@@ -77,7 +77,8 @@ public class GameController : MonoBehaviour {
         AdjustCamera();
 
         if (state == State.GameOver && perfectStepsTextUI.gameObject.activeInHierarchy) {
-            perfectStepsTextUI.gameObject.transform.localScale = Vector3.one * (1f + Mathf.Sin(Time.frameCount / 20f) / 10f);
+            perfectStepsTextSinVal += Time.deltaTime * 10f;
+            perfectStepsTextUI.gameObject.transform.localScale = Vector3.one * (1f + Mathf.Sin(perfectStepsTextSinVal) / 10f);
         }
     }
 
@@ -90,7 +91,7 @@ public class GameController : MonoBehaviour {
 
         //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         //sw.Start();
-        Common.PuzzleSolver.Move? move = await Common.PuzzleSolver.FindSolution(puzzle);
+        Common.PuzzleSolver.Move move = await Common.PuzzleSolver.FindSolution(puzzle);
         //sw.Stop();
 
         hintButton.GetComponentInChildren<TMP_Text>().text = "Hint";

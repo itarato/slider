@@ -11,7 +11,6 @@ Sliding boxes puzzle. This is a learning project to get into Unity.
 ### Todo
 
 - Volume to clink sound
-- Clunk sound during hint
 - Hint speed in game mode is slow (180ms vs 20ms)
 
 Low priority:
