@@ -1369,6 +1369,7 @@ MonoBehaviour:
   - {fileID: 8785782173700670328, guid: c75cfad3ef808854c8b952ce703d48ff, type: 3}
   - {fileID: 8785782173700670328, guid: 3bd18b4af6b5bf840a17848e38566a58, type: 3}
   mainCamera: {fileID: 963194227}
+  forcePortrait: 0
   startMenuUI: {fileID: 628891315}
   inGameUI: {fileID: 796376249}
   stepsTextUI: {fileID: 1973375264}
@@ -3419,7 +3420,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 65
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -5737,8 +5738,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Pack: ?? moves | Level: #???????'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f92986c0543e4a4e80731f29ffadd0a, type: 2}
-  m_sharedMaterial: {fileID: 3003850184306877165, guid: 3f92986c0543e4a4e80731f29ffadd0a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a06c6421d1cf41a4cbe0ad406a7a01c0, type: 2}
+  m_sharedMaterial: {fileID: 3003850184306877165, guid: a06c6421d1cf41a4cbe0ad406a7a01c0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6305,7 +6306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 15.81}
+  m_AnchoredPosition: {x: 0, y: 15.810059}
   m_SizeDelta: {x: 160, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2047457337

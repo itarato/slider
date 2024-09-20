@@ -18,7 +18,8 @@ public class GameController : MonoBehaviour {
     // Main camera.
     public Camera mainCamera;
     private float landscapeFOV = 65f;
-    private float portraitFOV = 95f;
+    private float portraitFOV = 90f;
+    public bool forcePortrait = false;
 
     // Reference to the various UIs.
     public GameObject startMenuUI;
@@ -89,16 +90,9 @@ public class GameController : MonoBehaviour {
         foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.SetNonInteractive();
         hintButton.GetComponentInChildren<TMP_Text>().text = "Wait";
 
-        //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-        //sw.Start();
         Common.PuzzleSolver.Move move = await Common.PuzzleSolver.FindSolution(puzzle);
-        //sw.Stop();
 
         hintButton.GetComponentInChildren<TMP_Text>().text = "Hint";
-
-        // TODO: Sliders are still interactive during automove. Fix that.
-
-        //Debug.Log($"Solution time: {sw.Elapsed.TotalMilliseconds}ms");
 
         if (move == null) {
             Debug.Log("ERROR! No solution.");
@@ -106,12 +100,8 @@ public class GameController : MonoBehaviour {
             state = State.Play;
             foreach (var slider in sliderInstances) slider.GetComponent<SliderCubeController>()?.SetInteractive();
         } else {
-            //Debug.Log("Next move: " + move.ToString());
-            // TODO: Prevent all interaction (slider moves + solve button
-            // TODO: Put it to background thread!
-
             SliderCubeController nextMoveSlider = sliderInstances[move.sliderIdx].GetComponent<SliderCubeController>();
-            Vector3 nextWorldPosition = WorldPositionForSliderCoords(nextMoveSlider.puzzleSlider.orientation, move.toX, move.toY);
+            Vector3 nextWorldPosition = WorldPositionForSliderCoords(nextMoveSlider.puzzleSlider.orientation, move.x, move.y);
 
             nextMoveSlider.autoMoveOn = true;
             nextMoveSlider.autoMoveTarget = nextWorldPosition;
@@ -253,9 +243,9 @@ public class GameController : MonoBehaviour {
 
     void AdjustCamera() {
         // On phone the FOV makes the board too close however both desktop and phone reports prortrait mode.
-        if (Screen.orientation == ScreenOrientation.LandscapeLeft ||
+        if ((Screen.orientation == ScreenOrientation.LandscapeLeft ||
             Screen.orientation == ScreenOrientation.LandscapeRight ||
-            !isPhoneDevice
+            !isPhoneDevice) && !forcePortrait
         ) {
             mainCamera.fieldOfView = landscapeFOV;
         } else {

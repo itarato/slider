@@ -9,35 +9,26 @@ namespace Common {
         public class Move {
             public int sliderIdx;
 
-            public int fromX;
-            public int fromY;
+            // Target virtual (board) coordinate.
+            public int x;
+            public int y;
 
-            public int toX;
-            public int toY;
-
-            public Move(int sliderIdx, int fromX, int fromY, int toX, int toY) {
+            public Move(int sliderIdx, int x, int y) {
                 this.sliderIdx = sliderIdx;
-                this.fromX = fromX;
-                this.fromY = fromY;
-                this.toX = toX;
-                this.toY = toY;
+                this.x = x;
+                this.y = y;
             }
 
             public override string ToString() {
-                return "Move #" + sliderIdx.ToString() + " " + fromX.ToString() + ":" + fromY.ToString() + " -> " + toX.ToString() + ":" + toY.ToString();
+                return "Move #" + sliderIdx.ToString() + " to " + x.ToString() + ":" + y.ToString();
             }
         }
 
         async public static Task<Move?> FindSolution(Puzzle startState) {
             return await Task.Run(() => {
                 if (startState.IsEndPosition()) {
-                    //Debug.Log("End position!");
-                    //Debug.Log(startState.DebugDump());
-
                     return new Move(
                         startState.specialSliderIdx,
-                        startState.GetSliders()[startState.specialSliderIdx].x,
-                        startState.GetSliders()[startState.specialSliderIdx].y,
                         5,
                         3
                     );
@@ -57,14 +48,14 @@ namespace Common {
                     char[] currentHash = worklist.First!.Value;
                     worklist.RemoveFirst();
 
-                    //setup state
+                    // setup state
                     state.ResetFromHash(currentHash);
 
                     if (state.IsEndPosition()) {
                         return ExtractNextStep(state, originState, stepParentMap);
                     }
 
-                    //find all possible next states
+                    // find all possible next states
                     List<char[]> allPossibleNextStates = state.AllPossibleStates();
                     foreach (var possibleNextState in allPossibleNextStates) {
                         //  filter to not-yet seen ones
@@ -95,9 +86,6 @@ namespace Common {
                 } else {
                     break;
                 }
-
-                //char[] hash = currentStep.ToCharArray();
-                //state.ResetFromHash(hash);
             }
 
             if (path.Count < 2) {
@@ -113,8 +101,6 @@ namespace Common {
                 if (!state.GetSliders()[i].Equals(originState.GetSliders()[i])) {
                     return new Move(
                         i,
-                        originState.GetSliders()[i].x,
-                        originState.GetSliders()[i].y,
                         state.GetSliders()[i].x,
                         state.GetSliders()[i].y
                     );
