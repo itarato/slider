@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static LevelsController;
 
 public class UIController : MonoBehaviour {
     public TMP_Dropdown packDropdown;
