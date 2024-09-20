@@ -99,17 +99,26 @@ namespace Common {
         public void AddSlider(Slider slider) {
             sliders.Add(slider);
             RecordSliderFootprintOnMemory(slider);
-
-            if (slider.IsSpecial()) specialSliderIdx = sliders.Count - 1;
+            CheckForSpecial(sliders.Count - 1);
         }
 
         public void ReplaceSliders(List<Slider> sliders) {
+            specialSliderIdx = -1;
             this.sliders = sliders;
             RefreshMemory();
 
-            for (int i = 0; i < sliders.Count; i++) {
-                if (sliders[i].IsSpecial()) specialSliderIdx = i;
+            for (int i = 0; i < sliders.Count; i++) CheckForSpecial(i);
+        }
+
+        private void CheckForSpecial(int idx) {
+            if (!sliders[idx].IsSpecial()) return;
+
+            if (specialSliderIdx >= 0) {
+                // There is a special already found and its X is greater (meaning that's the true special).
+                if (sliders[specialSliderIdx].x > sliders[idx].x) return;
             }
+
+            specialSliderIdx = idx;
         }
 
         /**

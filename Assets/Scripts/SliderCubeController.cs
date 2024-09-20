@@ -38,11 +38,11 @@ public class SliderCubeController : MonoBehaviour {
 
     // Whether the block got away from the wall (to check if we can clunk).
     private bool isAwayFromWall = true;
-    private float awayFromWallDistance = 0.1f;
+    private readonly float awayFromWallDistance = 0.1f;
 
     private State state = State.Interactive;
     private float gameOverRiseSpeed;
-    private float hintMoveSpeed = 6f;
+    private readonly float hintMoveSpeed = 6f;
 
     private Vector3 preDragPos;
 
@@ -78,6 +78,8 @@ public class SliderCubeController : MonoBehaviour {
                 } else {
                     dir = Mathf.Sign(autoMoveTarget.x - transform.position.x);
                 }
+                SmokeWhileDragging(dir);
+                PlayScratchSound(0.1f);
                 transform.Translate(Vector3.forward * dir * Time.deltaTime * hintMoveSpeed);
             }
         }
@@ -241,10 +243,8 @@ public class SliderCubeController : MonoBehaviour {
 
     private void ScratchSoundWhileDragging(float dist) {
         // Scratch sounds.
-        PlayScratchSound(Mathf.Abs(dist));
         if (dist != 0) {
             PlayScratchSound(Mathf.Abs(dist));
-            //Debug.Log(diffFrame);
         } else {
             StopScratchSound();
         }

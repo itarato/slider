@@ -5,7 +5,13 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Common {
+    /**
+     * Provides solution to a state of a puzzle.
+     */
     public class PuzzleSolver {
+        /**
+         * Represents a move (target) of a slider.
+         */
         public class Move {
             public int sliderIdx;
 
@@ -48,21 +54,21 @@ namespace Common {
                     char[] currentHash = worklist.First!.Value;
                     worklist.RemoveFirst();
 
-                    // setup state
+                    // Set board to current state.
                     state.ResetFromHash(currentHash);
 
                     if (state.IsEndPosition()) {
                         return ExtractNextStep(state, originState, stepParentMap);
                     }
 
-                    // find all possible next states
+                    // Find all possible states of the current board.
                     List<char[]> allPossibleNextStates = state.AllPossibleStates();
                     foreach (var possibleNextState in allPossibleNextStates) {
                         //  filter to not-yet seen ones
                         string newStateString = new string(possibleNextState);
                         if (knownHashes.Contains(newStateString)) continue;
 
-                        //  push it to the end of worklist
+                        // Set up for computing.
                         knownHashes.Add(newStateString);
                         worklist.AddLast(possibleNextState);
 
