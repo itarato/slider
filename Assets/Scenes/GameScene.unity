@@ -3177,7 +3177,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6100004777171333863, guid: 4c53e227e28018c4a8e0e775c4b18be5, type: 3}
       propertyPath: m_text
-      value: Play the same
+      value: Replay
       objectReference: {fileID: 0}
     - target: {fileID: 6100004777171333863, guid: 4c53e227e28018c4a8e0e775c4b18be5, type: 3}
       propertyPath: m_fontSize
