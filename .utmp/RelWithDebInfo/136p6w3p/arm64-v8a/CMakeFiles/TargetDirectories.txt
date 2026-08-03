@@ -1,0 +1,5 @@
+C:/Users/itara/CarSlide/.utmp/RelWithDebInfo/136p6w3p/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/itara/CarSlide/.utmp/RelWithDebInfo/136p6w3p/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Users/itara/CarSlide/.utmp/RelWithDebInfo/136p6w3p/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+C:/Users/itara/CarSlide/.utmp/RelWithDebInfo/136p6w3p/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+C:/Users/itara/CarSlide/.utmp/RelWithDebInfo/136p6w3p/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir

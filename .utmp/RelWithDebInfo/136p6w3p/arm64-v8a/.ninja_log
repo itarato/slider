@@ -1,0 +1,5 @@
+# ninja log v5
+257	374	7969689897280181	C:/Users/itara/CarSlide/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/136p6w3p/obj/arm64-v8a/libswappywrapper.so	ec87febcfe69b62
+1	256	7969689896173972	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	423817ad11412061
+2	120	7969704360035093	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	423817ad11412061
+121	227	7969704361043785	C:/Users/itara/CarSlide/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/136p6w3p/obj/arm64-v8a/libswappywrapper.so	ec87febcfe69b62
